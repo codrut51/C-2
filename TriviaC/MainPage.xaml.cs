@@ -25,8 +25,14 @@ namespace TriviaC
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private Game game;
-        private Image current;
+        /// <summary>
+        /// Starting program
+        /// </summary>
+        private Game game; //connection to game
+        private Image current; //the current image to be modified
+        /// <summary>
+        /// Constructor where everything is initialiezed 
+        /// </summary>
         public MainPage()
         {
             this.InitializeComponent();
@@ -36,12 +42,17 @@ namespace TriviaC
             FillQuestions.Visibility = Visibility.Collapsed;
             animate.Visibility = Visibility.Collapsed;
             Thickness margin = main.Margin;
-            SetHealth();
+            SetImage();
             margin.Left = 0;
             main.Margin = margin;
-            SetHealth();
+            SetImage();
             current = h1;
         }
+
+        /// <summary>
+        /// when the player loses all the hearts
+        /// all the grids are collapsing
+        /// </summary>
 
         private void lose()
         {
@@ -51,7 +62,11 @@ namespace TriviaC
             animate.Visibility = Visibility.Collapsed;
         }
 
-        private async void SetHealth()
+         /// <summary>
+         /// sets the image for the player life (hearts) 
+         /// </summary>
+
+        private async void SetImage()
         {
             try
             {
@@ -68,8 +83,12 @@ namespace TriviaC
                 await warning.ShowAsync();
             }
         }
-
-        private async void SetHealth(Image a, String s)
+        /// <summary>
+        /// sets a image to a Image component in the assignment
+        /// </summary>
+        /// <param name="a">the image component</param>
+        /// <param name="s">the image name and extention</param>
+        private async void SetImage(Image a, String s)
         {
             try
             {
@@ -84,6 +103,10 @@ namespace TriviaC
                 await warning.ShowAsync();
             }
         }
+        /// <summary>
+        /// shows a specific grid and moves the hearts if necessary
+        /// </summary>
+        /// <param name="m">the grid to be shown</param>
         private void Show(Grid m)
         {
             try
@@ -102,7 +125,10 @@ namespace TriviaC
             m.Margin = margin;
             m.Visibility = Visibility.Visible;
         }
-
+        /// <summary>
+        /// hides a specific grid and moves the hearts if necessary
+        /// </summary>
+        /// <param name="m">the grid to be hiden</param>
         private void Hide(Grid m)
         {
             try
@@ -118,12 +144,18 @@ namespace TriviaC
             m.Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// this function is used to display a user message
+        /// </summary>
+        /// <param name="message">the message to be displayed</param>
         private async void Display(string message)
         {
             MessageDialog ms = new MessageDialog(message);
             await ms.ShowAsync();
         }
-
+        /// <summary>
+        /// Button click ... this function happens on button click
+        /// </summary>
         private void button_Click(object sender, RoutedEventArgs e)
         {
             var x = username.Text.Split(' ');
@@ -147,7 +179,9 @@ namespace TriviaC
                 Display("Please insert a name with at least 4 charactes");
             }
         }
-
+        /// <summary>
+        /// Gets the next question available
+        /// </summary>
         private void getNext()
         {
             Question q = game.getNextQuesiton();
@@ -168,6 +202,10 @@ namespace TriviaC
                 codeRes.Text = "You won!!!";
             }
         }
+
+        /// <summary>
+        /// Button click ... this function happens on button click
+        /// </summary>
         private void button_StartSingle(object sender, RoutedEventArgs e)
         {
             //FillQuestion.Text = "for(int i =                       )" + Environment.NewLine + " { " + Environment.NewLine + "       jump(); " + Environment.NewLine + " } ";
@@ -175,19 +213,26 @@ namespace TriviaC
             Hide(second);
             Show(Gquestion);
         }
-
+        /// <summary>
+        /// Button click ... this function happens on button click
+        /// </summary>
         private void MultiStart_Click(object sender, RoutedEventArgs e)
         {
             Hide(FillQuestions);
-            Show(Gquestion);       
+            Show(Gquestion);
         }
-
+        /// <summary>
+        /// Button click ... this function happens on button click
+        /// </summary>
         private void SubmitAnswer_Click(object sender, RoutedEventArgs e)
         {
             Hide(FillQuestions);
             Show(animate);
         }
 
+        /// <summary>
+        /// Button click ... this function happens on button click
+        /// </summary>
         private void button_ClickAnswer(object sender, RoutedEventArgs e)
         {
             Button b = (Button)sender;
@@ -217,13 +262,15 @@ namespace TriviaC
                 game.Player.loseHeart();
             }
         }
-
+        /// <summary>
+        /// Makes an animation for each heart and when the player loses
+        /// </summary>
         public async void heart()
         {
             for(int i = 0; i < 5; i++)
             {
-                await Task.Delay(TimeSpan.FromSeconds(0.3));
-                SetHealth(current, game.Player.Heart.runAnimation());
+                await Task.Delay(TimeSpan.FromSeconds(0.25));
+                SetImage(current, game.Player.Heart.runAnimation());
             }
             if(current.Equals(h1))
             {
@@ -246,8 +293,8 @@ namespace TriviaC
                     int lenght = game.getAnimation("die").EndPoint;
                     for (int i = 0; i < lenght; i++)
                     {
-                        await Task.Delay(TimeSpan.FromSeconds(0.3));
-                        SetHealth(animation, game.getAnimation("die").runAnimation());
+                        await Task.Delay(TimeSpan.FromSeconds(0.25));
+                        SetImage(animation, game.getAnimation("die").runAnimation());
                     }
                 }
             }

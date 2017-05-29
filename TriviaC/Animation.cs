@@ -16,6 +16,12 @@ namespace TriviaC
         private int startPoint;
         private int endPoint;
         private int pos = 0;
+        /// <summary>
+        /// Constructor for the animation used to save the starting and end point of an animation
+        /// </summary>
+        /// <param name="nameOfAnimation"> name of the animation </param>
+        /// <param name="startPoint"> where the animation starts </param>
+        /// <param name="endPoint"> where the animation ends </param>
         public Animation(string nameOfAnimation, int startPoint, int endPoint)
         {
             desc = nameOfAnimation;
@@ -23,7 +29,10 @@ namespace TriviaC
             this.endPoint = endPoint;
             
         }
-
+        /// <summary>
+        /// returns the picture that needs to be displayed
+        /// </summary>
+        /// <returns>returns the picture that needs to be displayed</returns>
         public string runAnimation()
         {
             pos++;
@@ -37,7 +46,9 @@ namespace TriviaC
                 return desc + pos + ".png";
             }
         }
-
+        /// <summary>
+        /// getter for the starting Point
+        /// </summary>
         public int StartPoint
         {
             get
@@ -45,6 +56,9 @@ namespace TriviaC
                 return startPoint;
             }
         }
+        /// <summary>
+        /// getter for the endPoint
+        /// </summary>
         public int EndPoint
         {
             get
@@ -53,6 +67,10 @@ namespace TriviaC
             }
         }
 
+        /// <summary>
+        /// returns the picture that needs to be displayed
+        /// </summary>
+        /// <returns>returns the picture that needs to be displayed</returns>
         public string Animate()
         {
             pos++;

@@ -16,11 +16,22 @@ namespace TriviaC
         private string correctAnswer;
         private string complitionQuestion;
         private string complitionAnswer;
-
+        /// <summary>
+        /// constructor 
+        /// </summary>
         public Question()
         {
 
         }
+        /// <summary>
+        /// construcotr
+        /// </summary>
+        /// <param name="description">question description</param>
+        /// <param name="answer_A">question first answer </param>
+        /// <param name="answer_B">question second answer </param>
+        /// <param name="answer_c">question third answer </param>
+        /// <param name="correctAnswer"> question correct ansert</param>
+        /// <param name="category"> question category if needed </param>
         public Question(string description, string answer_A, string answer_B, string answer_c, string correctAnswer, string category)
         {
             this.description = description;
@@ -30,43 +41,86 @@ namespace TriviaC
             this.correctAnswer = correctAnswer;
             this.category = category;
         }
-
+        /// <summary>
+        /// construcotr
+        /// </summary>
+        /// <param name="description">question description</param>
+        /// <param name="answer_A">question first answer </param>
+        /// <param name="answer_B">question second answer </param>
+        /// <param name="answer_c">question third answer </param>
+        /// <param name="correctAnswer"> question correct ansert</param>
+        public Question(string description, string answer_A, string answer_B, string answer_c, string correctAnswer)
+        {
+            this.description = description;
+            this.answer_A = answer_A;
+            this.answer_B = answer_B;
+            this.answer_C = answer_c;
+            this.correctAnswer = correctAnswer;
+        }
+        /// <summary>
+        /// construcor
+        /// </summary>
+        /// <param name="complitionQuestion">complition question description</param>
+        /// <param name="complitionAnswer">complition question answer </param>
         public Question(string complitionQuestion, string complitionAnswer)
         {
             this.complitionQuestion = complitionQuestion;
             this.complitionAnswer = complitionAnswer;
         }
-
+        /// <summary>
+        /// gets complition question
+        /// </summary>
+        /// <returns>returns complition question</returns>
         public string getComplitionQuestion()
         {
             return complitionQuestion;
         }
-
+        /// <summary>
+        /// gets complition answer 
+        /// </summary>
+        /// <returns> returns compliton quesiton </returns>
         public string getComplitionAnswer()
         {
             return complitionAnswer;
         }
 
+        /// <summary>
+        /// gets quesiton description 
+        /// </summary>
+        /// <returns>quesiton descirption</returns>
         public string getQuestion()
         {
             return description;
         }
-
+        /// <summary>
+        /// gets question answer a
+        /// </summary>
+        /// <returns>returns question answer a</returns>
         public string getAnswerA()
         {
             return answer_A;
         }
-
+        /// <summary>
+        /// gets question answer b
+        /// </summary>
+        /// <returns>returns question answer b</returns>
         public string getAnswerB()
         {
             return answer_B;
         }
-
+        /// <summary>
+        /// gets question answer c
+        /// </summary>
+        /// <returns>returns question answer c</returns>
         public string getAnswerC()
         {
             return answer_C;
         }
 
+        /// <summary>
+        /// gets question correct answer
+        /// </summary>
+        /// <returns>returns question correct answer</returns>
         public string getCorrectAnswer()
         {
             return correctAnswer;

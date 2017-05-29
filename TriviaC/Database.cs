@@ -20,15 +20,26 @@ namespace TriviaC
     class Database
     {
         private HttpClient conn;
+        /// <summary>
+        /// constructor 
+        /// </summary>
         public Database()
         {
             conn = new HttpClient();
         }
+        /// <summary>
+        /// displays message
+        /// </summary>
+        /// <param name="s"></param>
         public async void display(string s)
         {
             MessageDialog md = new MessageDialog(s);
             await md.ShowAsync();
         }
+        /// <summary>
+        /// adds player to the database
+        /// </summary>
+        /// <param name="p">the player to be added</param>
 
         public async void addPlayer(Player p)
         {
@@ -50,6 +61,10 @@ namespace TriviaC
             }
         }
 
+        /// <summary>
+        /// gets the questions from the database
+        /// </summary>
+        /// <returns> returns the questions </returns>
         public async Task<string> getQuestions()
         {
             try

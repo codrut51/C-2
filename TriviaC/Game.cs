@@ -13,7 +13,9 @@ namespace TriviaC
         private Animation[] animation;
         private Database db;
         private int pos = -1;
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Game()
         {
             player = new Player();
@@ -23,11 +25,17 @@ namespace TriviaC
             initQuestions();
             initAnimation();
         }
-
+        /// <summary>
+        /// adds player to the database by passing it to the db instance
+        /// </summary>
+        /// <param name="p"> the player to be passed to the database in order to be processed</param>
         public void addPlayer(Player p)
         {
             db.addPlayer(p);
         }
+        /// <summary>
+        /// returns the player
+        /// </summary>
 
         public Player Player
         {
@@ -36,14 +44,19 @@ namespace TriviaC
                 return player;
             }
         }
-
+        /// <summary>
+        /// gets the next question
+        /// </summary>
+        /// <returns></returns>
         public Question getNextQuesiton()
         {
             
             pos++;
             return pos < 10 ? questions[pos] : null;
         }
-
+        /// <summary>
+        /// saves the questions into an array of questions from the database
+        /// </summary>
         private void initQuestions()
         {
            String s = db.getQuestions().Result;
@@ -57,14 +70,20 @@ namespace TriviaC
                 questions[i / 5] = q;
             }
         }
-
+        /// <summary>
+        /// initializes the animations
+        /// </summary>
         private void initAnimation()
         {
             animation[0] = new Animation("die", 1, 14);
             animation[1] = new Animation("jump", 1, 16);
             animation[2] = new Animation("run", 1, 9);
         }
-
+        /// <summary>
+        /// function that returns the animation needed
+        /// </summary>
+        /// <param name="name">the name of the needed animation</param>
+        /// <returns> the needed animation </returns>
         public Animation getAnimation(string name)
         {
             switch (name)
@@ -79,7 +98,11 @@ namespace TriviaC
                     return null;
             }
         }
-
+        /// <summary>
+        /// checks the correct button id
+        /// </summary>
+        /// <param name="ID">che id to be checked</param>
+        /// <returns>true or false</returns>
         public bool checkCorrect(int ID)
         {
             var res = "";
