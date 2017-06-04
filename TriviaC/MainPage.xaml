@@ -19,28 +19,30 @@
         <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="74,480,0,0" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Top" FontFamily="Papyrus" FontSize="45.333" Foreground="White" Grid.RowSpan="2"/>
         <TextBox x:Name="username" HorizontalAlignment="Left" Margin="211,482,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Grid.RowSpan="2" Height="59" Width="434" FontSize="36" BorderThickness="0,0,0,2" Background="{x:Null}" Foreground="White" FontFamily="Papyrus" SelectionHighlightColor="{x:Null}" />
         <Button x:Name="button" Content="NEXT" HorizontalAlignment="Left" Margin="699,479,0,0" VerticalAlignment="Top" Height="69" Grid.RowSpan="2" Width="192" BorderThickness="0" FontSize="45.333" FontFamily="Papyrus" Foreground="White" Click="button_Click"/>
-        <Grid x:Name="second" HorizontalAlignment="Stretch" Margin="-1137,1,0,-1" VerticalAlignment="Stretch" Grid.RowSpan="2" Height="Auto" Width="Auto" Visibility="Collapsed">
+
+        <PivotItem Header="PivotItem -1">
+            <Grid/>
+        </PivotItem>
+        <Grid x:Name="second" HorizontalAlignment="Stretch" Margin="-1064,1,1064,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back2.png"/>
             </Grid.Background>
             <Ellipse Fill="#FF343434" HorizontalAlignment="Left" Height="30" Margin="98,51,0,0" Stroke="White" StrokeThickness="5" VerticalAlignment="Top" Width="30"/>
-            <TextBlock x:Name="textBlock1_Copy" HorizontalAlignment="Left" Margin="145,32,0,0" TextWrapping="Wrap" Text="Single Player" VerticalAlignment="Top" FontFamily="Papyrus" FontSize="45.333" Foreground="White"/>
-            <Button x:Name="button_Copy" Content="Start" HorizontalAlignment="Left" Margin="98,103,0,0" VerticalAlignment="Top" Height="69" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="#332F2F2F" Click="button_StartSingle"/>
-            <Ellipse Fill="#FF343434" HorizontalAlignment="Left" Height="30" Margin="98,51,0,0" Stroke="White" StrokeThickness="5" VerticalAlignment="Top" Width="30"/>
             <TextBlock x:Name="textBlock1_Copy1" HorizontalAlignment="Left" Margin="145,32,0,0" TextWrapping="Wrap" Text="Single Player" VerticalAlignment="Top" FontFamily="Papyrus" FontSize="45.333" Foreground="White"/>
-            <Ellipse Fill="#FF343434" HorizontalAlignment="Left" Height="30" Margin="354,478,0,0" Stroke="White" StrokeThickness="5" VerticalAlignment="Top" Width="30"/>
-            <TextBlock x:Name="textBlock1_Copy2" HorizontalAlignment="Left" Margin="401,459,0,0" TextWrapping="Wrap" Text="Multiple Player" VerticalAlignment="Top" FontFamily="Papyrus" FontSize="45.333" Foreground="White"/>
-            <Button x:Name="MultiStart" Content="Start" HorizontalAlignment="Left" Margin="354,535,0,0" VerticalAlignment="Top" Height="69" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Click="MultiStart_Click"/>
-            <TextBlock x:Name="textBlock1_Copy3" HorizontalAlignment="Left" Margin="405,607,0,0" TextWrapping="Wrap" Text="Join: " VerticalAlignment="Top" FontFamily="Papyrus" FontSize="36" Foreground="White"/>
-            <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Margin="491,611,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="55" Width="250" FontSize="36" BorderThickness="0,0,0,2" Background="{x:Null}" Foreground="White" FontFamily="Papyrus" SelectionHighlightColor="{x:Null}" />
-            <Button x:Name="button_Copy2" Content="OK" HorizontalAlignment="Left" Margin="760,607,0,0" VerticalAlignment="Top" Height="69" Width="106" BorderThickness="0" FontSize="29.333" FontFamily="Papyrus" Foreground="White" Background="#332F2F2F"/>
+            <Ellipse Fill="#FF343434" HorizontalAlignment="Left" Height="30" Margin="428,508,0,0" Stroke="White" StrokeThickness="5" VerticalAlignment="Top" Width="30"/>
+            <TextBlock x:Name="textBlock1_Copy2" HorizontalAlignment="Left" Margin="475,489,0,0" TextWrapping="Wrap" Text="Multiple Player" VerticalAlignment="Top" FontFamily="Papyrus" FontSize="45.333" Foreground="White"/>
+            <Button x:Name="MultiStart" Content="Start" HorizontalAlignment="Left" Margin="428,565,0,0" VerticalAlignment="Top" Height="69" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Click="MultiStart_Click"/>
+            <TextBlock x:Name="textBlock1_Copy3" HorizontalAlignment="Left" Margin="479,637,0,0" TextWrapping="Wrap" Text="Join: " VerticalAlignment="Top" FontFamily="Papyrus" FontSize="36" Foreground="White"/>
+            <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Margin="565,641,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="55" Width="250" FontSize="36" BorderThickness="0,0,0,2" Background="{x:Null}" Foreground="White" FontFamily="Papyrus" SelectionHighlightColor="{x:Null}" />
+            <Button x:Name="join" Content="OK" HorizontalAlignment="Left" Margin="834,637,0,0" VerticalAlignment="Top" Height="69" Width="106" BorderThickness="0" FontSize="29.333" FontFamily="Papyrus" Foreground="White" Background="#332F2F2F" Click="join_Click"/>
+            <Button x:Name="MultiStart_Copy" Content="Start" HorizontalAlignment="Left" Margin="145,141,0,0" VerticalAlignment="Top" Height="69" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Click="button_StartSingle"/>
         </Grid>
 
-        <Grid x:Name="Gquestion" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto" Margin="-2371,0,2371,-1" Grid.RowSpan="2" Visibility="Visible">
+        <Grid x:Name="Gquestion" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto" Margin="-2371,0,2371,-1" Grid.RowSpan="2" Visibility="Collapsed">
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back5.jpg"/>
             </Grid.Background>
-            <TextBlock x:Name="qdesc" HorizontalAlignment="Left" Height="120" Margin="127,163,0,0" TextWrapping="Wrap" Text="How is C# different from Java? " VerticalAlignment="Top" Width="769" SelectionHighlightColor="#FF404040" Foreground="#FFF3F3F3" FontFamily="Papyrus" FontSize="33.333"/>
+            <TextBlock x:Name="qdesc" HorizontalAlignment="Center" Margin="60,180,60,0" TextWrapping="Wrap" Text="In C#.NET  how is it possible to prevent inheritance?" SelectionHighlightColor="#FF404040" Foreground="#FFF3F3F3" FontFamily="Papyrus" FontSize="33.333" VerticalAlignment="Top"/>
             <TextBlock x:Name="textBlock2_Copy" HorizontalAlignment="Left" Height="62" Margin="196,294,0,0" TextWrapping="Wrap" Text="A." VerticalAlignment="Top" Width="44" SelectionHighlightColor="#FF404040" Foreground="#FFF3F3F3" FontFamily="Papyrus" FontSize="36"/>
             <TextBlock x:Name="textBlock2_Copy1" HorizontalAlignment="Left" Height="62" Margin="196,414,0,0" TextWrapping="Wrap" Text="B." VerticalAlignment="Top" Width="44" SelectionHighlightColor="#FF404040" Foreground="#FFF3F3F3" FontFamily="Papyrus" FontSize="36"/>
             <TextBlock x:Name="textBlock2_Copy2" HorizontalAlignment="Left" Height="62" Margin="196,532,0,0" TextWrapping="Wrap" Text="C." VerticalAlignment="Top" Width="44" SelectionHighlightColor="#FF404040" Foreground="#FFF3F3F3" FontFamily="Papyrus" FontSize="36"/>
@@ -51,10 +53,10 @@
             <Image x:Name="h1" HorizontalAlignment="Left" Height="47" Margin="127,76,0,0" VerticalAlignment="Top" Width="56"/>
             <Image x:Name="h2" HorizontalAlignment="Left" Height="47" Margin="184,76,0,0" VerticalAlignment="Top" Width="56"/>
             <Image x:Name="h3" HorizontalAlignment="Left" Height="47" Margin="245,76,0,0" VerticalAlignment="Top" Width="56"/>
-            <TextBlock x:Name="Points" HorizontalAlignment="Left" Height="47" Margin="760,76,0,0" TextWrapping="Wrap" Text="Points:" VerticalAlignment="Top" Width="159" FontFamily="Papyrus" FontSize="30.667" Foreground="White" SelectionHighlightColor="{x:Null}"/>
+            <TextBlock x:Name="Points" HorizontalAlignment="Right" Height="47" Margin="0,76,80,0" TextWrapping="Wrap" Text="Points:" VerticalAlignment="Top" Width="174" FontFamily="Papyrus" FontSize="30.667" Foreground="White" SelectionHighlightColor="{x:Null}"/>
         </Grid>
 
-        <Grid x:Name="FillQuestions" HorizontalAlignment="Stretch" Height="Auto" Margin="-3685,1,0,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Width="Auto" Visibility="Collapsed">
+        <Grid x:Name="FillQuestions" HorizontalAlignment="Stretch" Height="Auto" Margin="-3685,1,3685,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Width="Auto" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="229*"/>
                 <RowDefinition Height="164*"/>
@@ -62,17 +64,29 @@
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back3.png"/>
             </Grid.Background>
-            <TextBlock x:Name="FillQuestion" HorizontalAlignment="Left" Height="253" Margin="121,155,0,0" TextWrapping="Wrap" Text="for(                                  )" VerticalAlignment="Top" Width="780" Foreground="White" SelectionHighlightColor="{x:Null}" FontFamily="Papyrus" FontSize="36"/>
-            <TextBox x:Name="Answer" HorizontalAlignment="Left" Margin="121,96,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="64" Width="578" FontFamily="Papyrus" FontSize="36" Background="{x:Null}" SelectionHighlightColor="{x:Null}" Foreground="White" BorderBrush="White" Grid.Row="1" BorderThickness="0,0,0,2"/>
-            <Button x:Name="SubmitAnswer" Content="Submit" HorizontalAlignment="Left" Margin="746,96,0,0" VerticalAlignment="Top" Height="64" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Grid.Row="1" Click="SubmitAnswer_Click"/>
-            <TextBlock x:Name="Request" HorizontalAlignment="Left" Height="54" Margin="121,23,0,0" TextWrapping="Wrap" Text="Fill in the blanks to make the jump 10 times: " VerticalAlignment="Top" Width="780" Foreground="White" SelectionHighlightColor="{x:Null}" FontFamily="Papyrus" FontSize="36" Grid.Row="1"/>
+            <TextBlock x:Name="FillCode" HorizontalAlignment="Center" Margin="85,80,85,0" TextWrapping="Wrap" Text="for(                                  )" VerticalAlignment="Center" Foreground="White" SelectionHighlightColor="{x:Null}" FontFamily="Papyrus" FontSize="16"/>
+            <TextBox x:Name="FillAnswer" HorizontalAlignment="Left" Margin="121,132,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="64" Width="578" FontFamily="Papyrus" FontSize="36" Background="{x:Null}" SelectionHighlightColor="{x:Null}" Foreground="White" BorderBrush="White" Grid.Row="1" BorderThickness="0,0,0,2"/>
+            <Button x:Name="SubmitAnswer" Content="Submit" HorizontalAlignment="Left" Margin="746,132,0,0" VerticalAlignment="Top" Height="64" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Grid.Row="1" Click="SubmitAnswer_Click"/>
+            <TextBlock x:Name="FillDesc" HorizontalAlignment="Left" Height="54" Margin="121,59,0,0" TextWrapping="Wrap" Text="Fill in the blanks to make the jump 10 times: " VerticalAlignment="Top" Width="780" Foreground="White" SelectionHighlightColor="{x:Null}" FontFamily="Papyrus" FontSize="36" Grid.Row="1"/>
         </Grid>
+
         <Grid x:Name="animate" HorizontalAlignment="Stretch" Height="Auto" Margin="-1750,0,1750,0" Grid.RowSpan="2" VerticalAlignment="Stretch" Width="Auto" Visibility="Collapsed">
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back4.png"/>
             </Grid.Background>
             <Image x:Name="animation" HorizontalAlignment="Center" Height="238" Margin="0,104,0,0" VerticalAlignment="Top" Width="238"/>
-            <TextBlock x:Name="codeRes" HorizontalAlignment="Center" Height="165" Margin="0,439,0,0" TextWrapping="Wrap" Text="You Lost" VerticalAlignment="Top" FontFamily="Papyrus" FontSize="30.667" Foreground="White" SelectionHighlightColor="{x:Null}"/>
+            <TextBlock x:Name="codeRes" Margin="80,400,77,0" TextWrapping="Wrap" Text="You Lost" FontFamily="Papyrus" FontSize="16" Foreground="White" SelectionHighlightColor="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Button x:Name="Continue" Content="Continue" HorizontalAlignment="Right" Margin="745,636,100,80" VerticalAlignment="Bottom" Height="64" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Click="Click_Continue"/>
+        </Grid>
+        <Grid x:Name="Win" HorizontalAlignment="Stretch" Margin="-1282,1,1282,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Visibility="Visible">
+            <Grid.Background>
+                <ImageBrush Stretch="Fill" ImageSource="Assets/back5.jpg"/>
+            </Grid.Background>
+            <TextBlock x:Name="MyUser" HorizontalAlignment="Left" Margin="100,200,0,0" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Top" FontFamily="Papyrus" FontSize="33.333" Foreground="White"/>
+            <TextBlock x:Name="OtherColumn1" HorizontalAlignment="Left" Margin="100,0,0,80" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Bottom" FontFamily="Papyrus" FontSize="26.667" Foreground="White"/>
+            <TextBlock x:Name="OtherColumn2" HorizontalAlignment="Right" Margin="0,0,90,100" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Bottom" FontFamily="Papyrus" FontSize="26.667" Foreground="White"/>
+            <TextBlock x:Name="OtherColumn3" HorizontalAlignment="Right" Margin="0,0,90,100" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Bottom" FontFamily="Papyrus" FontSize="26.667" Foreground="White"/>
+            <Button x:Name="button_Copy" Content="Retry" HorizontalAlignment="Right" Margin="0,0,85,0" VerticalAlignment="Center" BorderThickness="0" FontSize="45.333" FontFamily="Papyrus" Foreground="White" Click="click_Retry"/>
         </Grid>
     </Grid>
 </Page>

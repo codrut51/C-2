@@ -30,6 +30,8 @@ namespace TriviaC
         /// </summary>
         private Game game; //connection to game
         private Image current; //the current image to be modified
+        private bool isChoice = true;
+        private Question currentQuestion;
         /// <summary>
         /// Constructor where everything is initialiezed 
         /// </summary>
@@ -41,6 +43,7 @@ namespace TriviaC
             Gquestion.Visibility = Visibility.Collapsed;
             FillQuestions.Visibility = Visibility.Collapsed;
             animate.Visibility = Visibility.Collapsed;
+            Win.Visibility = Visibility.Collapsed;
             Thickness margin = main.Margin;
             SetImage();
             margin.Left = 0;
@@ -169,7 +172,7 @@ namespace TriviaC
             {
                 username.Text = res;
                 Player p = new Player(res, 0);
-                game.addPlayer(p);
+                game.Player = p;
                 Points.Text = "Points: " + p.getScore();
                // 
                 Show(second);
@@ -184,22 +187,108 @@ namespace TriviaC
         /// </summary>
         private void getNext()
         {
-            Question q = game.getNextQuesiton();
-            if(q != null)
+            currentQuestion = game.getNextQuesiton();
+            if(isChoice)
             {
-                qdesc.Text = q.getQuestion();
-                answerA.Content = q.getAnswerA();
-                answerB.Content = q.getAnswerB();
-                answerC.Content = q.getAnswerC();
+                Hide(FillQuestions);
+                Show(Gquestion);
+                if (currentQuestion != null)
+                {
+                    qdesc.Text = currentQuestion.getQuestion();
+                    if (qdesc.Text.Length <= 60)
+                    {
+                        Thickness m = qdesc.Margin;
+                        m.Top = 180;
+                        qdesc.Margin = m;
+                    }
+                    else
+                    {
+                        Thickness m = qdesc.Margin;
+                        m.Top = 128;
+                        qdesc.Margin = m;
+                    }
+                    answerA.Content = currentQuestion.getAnswerA();
+                    answerB.Content = currentQuestion.getAnswerB();
+                    answerC.Content = currentQuestion.getAnswerC();
+                    isChoice = false;
+                }
+            }
+            else//endif
+            {
+                if (currentQuestion != null)
+                {
+                    Hide(animate);
+                    Hide(Gquestion);
+                    Show(FillQuestions);
+                    FillCode.Text = currentQuestion.getComplitionQuestion();
+                    FillDesc.Text = currentQuestion.getQuestion();
+                    isChoice = true;
+                }
+            }
+           
+        }
+
+        private void Click_Continue(object sender, RoutedEventArgs e)
+        {
+            Hide(animate);
+            if(currentQuestion != null)
+            {
+                Show(Gquestion);
             }
             else
             {
+                Hide(animate);
                 Hide(Gquestion);
                 Hide(FillQuestions);
-                Show(animate);
+                Show(Win);
+                Continue.Visibility = Visibility.Collapsed;
                 game.Player.incrementScore(game.Player.getHeartsTotal() * 100);
                 Points.Text = "Points: " + game.Player.getScore();
-                codeRes.Text = "You won!!!";
+                MyUser.Text = "Name: " + game.Player.getName() + Environment.NewLine + "Score: " + game.Player.getScore();
+                game.addPlayer();
+                game = new Game(game.Player);
+                OtherColumn1.Text = "Higest Players: " + Environment.NewLine;
+                OtherColumn2.Text = "";
+                OtherColumn3.Text = "";
+                for (int i = 0; i < 5; i++)
+                {
+                    Player x = game.getNextPlayer(i);
+                    if (x != null)
+                    {
+                        if (i < 2)
+                        {
+                            OtherColumn1.Text += "Name: " + x.getName() + " Score: " + x.getScore() + Environment.NewLine;
+                        }
+                        else if (i < 4)
+                        {
+                            OtherColumn2.Text += "Name: " + x.getName() + " Score: " + x.getScore() + Environment.NewLine;
+                        }
+                        else
+                        {
+                            OtherColumn1.Text += "Name: " + x.getName() + " Score: " + x.getScore() + Environment.NewLine;
+                        }
+
+                    }
+                }
+
+                if (game.Player.getScore() == 400)
+                {
+                    try // this try catch changes the background of the grid if you have 400 points
+                    {
+                        String imagepath = "ms-appx:///Assets/ultimate win.png";
+                        Uri uri = new Uri(imagepath, UriKind.RelativeOrAbsolute);
+                        ImageBrush img = new ImageBrush();
+                        img.ImageSource = new BitmapImage(uri);
+                        Win.Background = img;
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    //var brush = new ImageBrush();
+                    //brush.ImageSource = new BitmapImage(new Uri("Assets/Ultimate win.png"));
+                    //Win.Background = brush;
+                    Display("Because you got the maximum amount of points now you can see what is the meaning of the morse code of each background");
+                }
             }
         }
 
@@ -208,7 +297,6 @@ namespace TriviaC
         /// </summary>
         private void button_StartSingle(object sender, RoutedEventArgs e)
         {
-            //FillQuestion.Text = "for(int i =                       )" + Environment.NewLine + " { " + Environment.NewLine + "       jump(); " + Environment.NewLine + " } ";
             getNext();
             Hide(second);
             Show(Gquestion);
@@ -222,12 +310,42 @@ namespace TriviaC
             Show(Gquestion);
         }
         /// <summary>
+        /// runs an animation for the complition questions
+        /// </summary>
+        /// <param name="s">the name of the animation</param>
+        public async void runAnimation(string s)
+        {
+            int lenght = game.getAnimation(s).EndPoint;
+            for (int i = 0; i < lenght; i++)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(0.25));
+                SetImage(animation, game.getAnimation(s).runAnimation());
+            }
+        }
+        /// <summary>
         /// Button click ... this function happens on button click
         /// </summary>
         private void SubmitAnswer_Click(object sender, RoutedEventArgs e)
         {
-            Hide(FillQuestions);
-            Show(animate);
+            if(game.checkCorrect(FillAnswer.Text))
+            {
+                Hide(FillQuestions);
+                if(currentQuestion.getAnimation() != "none")
+                {
+                    Show(animate);
+                    runAnimation(currentQuestion.getAnimation());
+                    codeRes.Text = currentQuestion.getComplitionQuestion();
+                }
+                game.Player.incrementScore();
+                Points.Text = "Points: " + game.Player.getScore();
+                FillAnswer.Text = "";
+                getNext();
+            }
+            else
+            {
+                heart();
+                game.Player.loseHeart();
+            }
         }
 
         /// <summary>
@@ -241,13 +359,13 @@ namespace TriviaC
             switch(s)
             {
                 case "answerA":
-                    r = game.checkCorrect(0);
+                    r = game.checkCorrect("a");
                     break;
                 case "answerB":
-                    r = game.checkCorrect(1);
+                    r = game.checkCorrect("b");
                     break;
                 case "answerC":
-                    r = game.checkCorrect(2);
+                    r = game.checkCorrect("c");
                     break;
             }
             if(r)
@@ -284,6 +402,7 @@ namespace TriviaC
                 lose();
                 Hide(Gquestion);
                 Hide(FillQuestions);
+                Continue.Visibility = Visibility.Collapsed;
                 Show(animate);
                     if(game.getAnimation("die") == null)
                     {
@@ -298,6 +417,61 @@ namespace TriviaC
                     }
                 }
             }
+        }
+
+        private void join_Click(object sender, RoutedEventArgs e)
+        {
+            try // this try catch changes the background of the grid if you have 400 points
+            {
+                String imagepath = "ms-appx:///Assets/ultimate win.png";
+                Uri uri = new Uri(imagepath, UriKind.RelativeOrAbsolute);
+                ImageBrush img = new ImageBrush();
+                img.ImageSource = new BitmapImage(uri);
+                Win.Background = img;
+            }
+            catch (Exception)
+            {
+            }
+            Hide(animate);
+            Hide(Gquestion);
+            Hide(FillQuestions);
+            Show(Win);
+            Continue.Visibility = Visibility.Collapsed;
+            game.Player.incrementScore(game.Player.getHeartsTotal() * 100);
+            Points.Text = "Points: " + game.Player.getScore();
+            MyUser.Text = "Name: " + game.Player.getName() + Environment.NewLine + "Score: " + game.Player.getScore();
+            OtherColumn1.Text = "Higest Players: " + Environment.NewLine;
+            OtherColumn2.Text = "";
+            OtherColumn3.Text = "";
+            for (int i = 0; i < 5; i++)
+            {
+                Player x = game.getNextPlayer(i);
+                if (x != null)
+                {
+                    if(i < 2)
+                    {
+                        OtherColumn1.Text += "Name: " + x.getName() + " Score: " + x.getScore() + Environment.NewLine;
+                    }else if(i < 4)
+                    {
+                        OtherColumn2.Text += "Name: " + x.getName() + " Score: " + x.getScore() + Environment.NewLine;
+                    }
+                    else
+                    {
+                        OtherColumn1.Text += "Name: " + x.getName() + " Score: " + x.getScore() + Environment.NewLine;
+                    }
+                    
+                }
+            }
+
+        }
+
+        private void click_Retry(object sender, RoutedEventArgs e)
+        {
+            second.Visibility = Visibility.Collapsed;
+            Gquestion.Visibility = Visibility.Collapsed;
+            FillQuestions.Visibility = Visibility.Collapsed;
+            animate.Visibility = Visibility.Collapsed;
+            Win.Visibility = Visibility.Collapsed;
         }
     }
 }

@@ -11,8 +11,10 @@ namespace TriviaC
         private Player player;
         private Question[] questions;
         private Animation[] animation;
+        private Player[] hiplayer;
         private Database db;
         private int pos = -1;
+        private int posP = -1;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -21,17 +23,34 @@ namespace TriviaC
             player = new Player();
             questions = new Question[10];
             animation = new Animation[3];
+            hiplayer = new Player[5];
             db = new Database();
             initQuestions();
             initAnimation();
+            initFillQuestions();
+            initHiPlayer();
+        }/// <summary>
+         /// Constructor
+         /// </summary>
+        public Game(Player p)
+        {
+            player = p;
+            questions = new Question[10];
+            animation = new Animation[3];
+            hiplayer = new Player[5];
+            db = new Database();
+            initQuestions();
+            initAnimation();
+            initFillQuestions();
+            initHiPlayer();
         }
         /// <summary>
         /// adds player to the database by passing it to the db instance
         /// </summary>
         /// <param name="p"> the player to be passed to the database in order to be processed</param>
-        public void addPlayer(Player p)
+        public void addPlayer()
         {
-            db.addPlayer(p);
+            db.addPlayer(player);
         }
         /// <summary>
         /// returns the player
@@ -42,6 +61,11 @@ namespace TriviaC
             get
             {
                 return player;
+            }
+
+            set
+            {
+                player = value;
             }
         }
         /// <summary>
@@ -59,16 +83,70 @@ namespace TriviaC
         /// </summary>
         private void initQuestions()
         {
-           String s = db.getQuestions().Result;
+            string s = db.getQuestions().Result;
             string[] stringSeparators = new string[] { "<br/>" };
             var res = s.Split(stringSeparators,51, StringSplitOptions.RemoveEmptyEntries);
             string parse = "";
-            for(int i = 0; i < (res.Length -1); i+=5)
+            int k = 0;
+            for(int i = 0; i < res.Length / 2; i+=5)
             {
                 Question q = new Question(res[i], res[i + 1], res[i + 2], res[i + 3],res[i+4], "c#");
                 parse += res[i] + " " + res[i + 1] + " " + res[i + 2] + " " + res[i + 3] + " " + res[i + 4]+" " ;
-                questions[i / 5] = q;
+                questions[k] = q;
+                k += 2;
             }
+        }
+
+        private void initFillQuestions()
+        {
+            string s = db.getFillQuestions().Result;
+            string[] stringSeparators = new string[] { "<br/>" };
+            var res = s.Split(stringSeparators, 21, StringSplitOptions.RemoveEmptyEntries);
+            string parse = "";
+            int k = 1;
+            for (int i = 0; i < res.Length - 1; i += 4)
+            {
+                Question q = new Question(res[i], res[i + 1], res[i + 2], res[i + 3]);
+                parse += res[i] + " " + res[i + 1] + " " + res[i + 2] + " " + res[i + 3];
+                questions[k] = q;
+                k += 2;
+            }
+        }
+        /// <summary>
+        /// stores the first 5 highest players in the array hiplayer
+        /// </summary>
+        private void initHiPlayer()
+        {
+            string s = db.getHighest().Result;
+            string[] stringSeparators = new string[] { "<br/>" };
+            var res = s.Split(stringSeparators, 11, StringSplitOptions.RemoveEmptyEntries);
+            string parse = "";
+            int k = 0;
+            for (int i = 0; i < res.Length - 1; i += 2)
+            { 
+                Player p = new Player(res[i],int.Parse(res[i + 1]));
+                parse += res[i] + " " + res[i + 1];
+                hiplayer[k] = p;
+                k++;
+            }
+        }
+        /// <summary>
+        /// gets the players from the hiplayer array
+        /// </summary>
+        /// <returns></returns>
+        public Player getNextPlayer()
+        {
+            posP++;
+            return posP < 5 ? hiplayer[posP] : null;
+        }
+        /// <summary>
+        /// gets the player at the pos i
+        /// </summary>
+        /// <param name="i"> the position</param>
+        /// <returns>returns the player</returns>
+        public Player getNextPlayer(int i)
+        {
+            return i < 5 ? hiplayer[i] : null;
         }
         /// <summary>
         /// initializes the animations
@@ -103,21 +181,10 @@ namespace TriviaC
         /// </summary>
         /// <param name="ID">che id to be checked</param>
         /// <returns>true or false</returns>
-        public bool checkCorrect(int ID)
+        public bool checkCorrect(string ID)
         {
-            var res = "";
-            switch(ID)
-            {
-                case 0:
-                    res = questions[pos].getAnswerA();
-                    break;
-                case 1:
-                    res = questions[pos].getAnswerB();
-                    break;
-                case 2:
-                    res = questions[pos].getAnswerC();
-                    break;
-            }
+            var res = ID;
+           
             if (res == questions[pos].getCorrectAnswer())
             {
                 return true;

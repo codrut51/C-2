@@ -9,6 +9,7 @@ namespace TriviaC
     class Question
     {
         private string description;
+        private string animation;
         private string category;
         private string answer_A;
         private string answer_B;
@@ -62,10 +63,12 @@ namespace TriviaC
         /// </summary>
         /// <param name="complitionQuestion">complition question description</param>
         /// <param name="complitionAnswer">complition question answer </param>
-        public Question(string complitionQuestion, string complitionAnswer)
+        public Question(string description, string complitionQuestion, string complitionAnswer, string animation)
         {
+            this.description = description;
             this.complitionQuestion = complitionQuestion;
-            this.complitionAnswer = complitionAnswer;
+            this.correctAnswer = complitionAnswer;
+            this.animation = animation;
         }
         /// <summary>
         /// gets complition question
@@ -75,15 +78,6 @@ namespace TriviaC
         {
             return complitionQuestion;
         }
-        /// <summary>
-        /// gets complition answer 
-        /// </summary>
-        /// <returns> returns compliton quesiton </returns>
-        public string getComplitionAnswer()
-        {
-            return complitionAnswer;
-        }
-
         /// <summary>
         /// gets quesiton description 
         /// </summary>
@@ -124,6 +118,11 @@ namespace TriviaC
         public string getCorrectAnswer()
         {
             return correctAnswer;
+        }
+
+        public string getAnimation()
+        {
+            return animation;
         }
     }
 }

@@ -44,12 +44,13 @@ namespace TriviaC
         public async void addPlayer(Player p)
         {
             try
-            {
+           {
                 conn = new HttpClient();
                 conn.BaseAddress = new Uri("http://localhost:80/user.php");
                 var formContent = new FormUrlEncodedContent(new[]
                     {
-                    new KeyValuePair<string, string>("username", p.getName().ToString())
+                    new KeyValuePair<string, string>("username", p.getName().ToString()),
+                    new KeyValuePair<string, string>("score", p.getScore().ToString())
                 });
 
                 HttpResponseMessage req = await conn.PostAsync("http://localhost:80/user.php", formContent);
@@ -69,11 +70,14 @@ namespace TriviaC
         {
             try
             {
+                int id = getNoQuestion("noQuestions.php").Result;
+                Random r = new Random();
+                int rand = r.Next((id-5) >= 5 ? (id - 5) : 1) + 1;
                 conn = new HttpClient();
                 conn.BaseAddress = new Uri("http://localhost:80/questions.php");
                 var formContent = new FormUrlEncodedContent(new[]
                     {
-                    new KeyValuePair<string, string>("id", "")
+                    new KeyValuePair<string, string>("id", rand.ToString())
                 });
 
                 HttpResponseMessage req = conn.PostAsync("http://localhost:80/questions.php", formContent).Result;
@@ -86,5 +90,85 @@ namespace TriviaC
                 return null;
             }
         }
+        /// <summary>
+        /// gets the questions from the database
+        /// </summary>
+        /// <returns> returns the questions </returns>
+        public async Task<string> getFillQuestions()
+        {
+            try
+            {
+                int id = getNoQuestion("noFillQuestions.php").Result;
+                Random r = new Random();
+                int rand = r.Next((id - 5) >= 5 ? (id - 5) : 1) + 1;
+                conn = new HttpClient();
+                conn.BaseAddress = new Uri("http://localhost:80/fillquestions.php");
+                var formContent = new FormUrlEncodedContent(new[]
+                    {
+                    new KeyValuePair<string, string>("number", rand.ToString())
+                });
+
+                HttpResponseMessage req = conn.PostAsync("http://localhost:80/fillquestions.php", formContent).Result;
+                string content = await req.Content.ReadAsStringAsync();
+                return content;
+            }
+            catch (Exception)
+            {
+                display("Cannot initiate a connection to the database please try again later");
+                return null;
+            }
+        }
+        /// <summary>
+        /// gets the highest score and name from the database
+        /// </summary>
+        /// <returns> returns the questions </returns>
+        public async Task<string> getHighest()
+        {
+            try
+            {
+                conn = new HttpClient();
+                conn.BaseAddress = new Uri("http://localhost:80/hiplayer.php");
+                var formContent = new FormUrlEncodedContent(new[]
+                    {
+                    new KeyValuePair<string, string>("id", "")
+                });
+
+                HttpResponseMessage req = conn.PostAsync("http://localhost:80/hiplayer.php", formContent).Result;
+                string content = await req.Content.ReadAsStringAsync();
+                return content;
+            }
+            catch (Exception)
+            {
+                display("Cannot initiate a connection to the database please try again later");
+                return null;
+            }
+        }
+        /// <summary>
+        /// gets the highest score and name from the database
+        /// </summary>
+        /// <returns> returns the questions </returns>
+        public async Task<int> getNoQuestion(string phpfile)
+        {
+            try
+            {
+                conn = new HttpClient();
+                conn.BaseAddress = new Uri("http://localhost:80/" + phpfile);
+                var formContent = new FormUrlEncodedContent(new[]
+                    {
+                    new KeyValuePair<string, string>("id", "")
+                });
+
+                HttpResponseMessage req = conn.PostAsync("http://localhost:80/" + phpfile, formContent).Result;
+                string content = await req.Content.ReadAsStringAsync();
+                return int.Parse(content);
+            }
+            catch (Exception)
+            {
+                display("Cannot initiate a connection to the database please try again later");
+                return 0;
+            }
+        }
+
+
     }
 }
