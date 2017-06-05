@@ -75,10 +75,32 @@
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back4.png"/>
             </Grid.Background>
             <Image x:Name="animation" HorizontalAlignment="Center" Height="238" Margin="0,104,0,0" VerticalAlignment="Top" Width="238"/>
-            <TextBlock x:Name="codeRes" Margin="80,400,77,0" TextWrapping="Wrap" Text="You Lost" FontFamily="Papyrus" FontSize="16" Foreground="White" SelectionHighlightColor="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="codeRes" Margin="80,280,77,0" TextWrapping="Wrap" FontFamily="Papyrus" FontSize="18.667" Foreground="White" SelectionHighlightColor="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center">
+            	<Run Text="int a = 2;"/>
+            	<LineBreak/>
+            	<Run/>
+            	<LineBreak/>
+            	<Run Text="______(a)"/>
+            	<LineBreak/>
+            	<Run Text="{}{"/>
+            	<LineBreak/>
+            	<Run Text="&#x9;case 1:"/>
+            	<LineBreak/>
+            	<Run Text="&#x9;   person.die();"/>
+            	<LineBreak/>
+            	<Run Text="&#x9;   break;"/>
+            	<LineBreak/>
+            	<Run Text="&#x9;case 2:"/>
+            	<LineBreak/>
+            	<Run Text="&#x9;   person.jump();"/>
+            	<LineBreak/>
+            	<Run Text="&#x9;   break;"/>
+            	<LineBreak/>
+            	<Run Text="}"/>
+            </TextBlock>
             <Button x:Name="Continue" Content="Continue" HorizontalAlignment="Right" Margin="745,636,100,80" VerticalAlignment="Bottom" Height="64" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Click="Click_Continue"/>
         </Grid>
-        <Grid x:Name="Win" HorizontalAlignment="Stretch" Margin="-1282,1,1282,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Visibility="Visible">
+        <Grid x:Name="Win" HorizontalAlignment="Stretch" Margin="-1282,1,1282,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back5.jpg"/>
             </Grid.Background>

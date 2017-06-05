@@ -390,6 +390,7 @@ namespace TriviaC
                 await Task.Delay(TimeSpan.FromSeconds(0.25));
                 SetImage(current, game.Player.Heart.runAnimation());
             }
+            Task.Delay(2000).Wait();
             if(current.Equals(h1))
             {
                 current = h2;
@@ -404,9 +405,15 @@ namespace TriviaC
                 Hide(FillQuestions);
                 Continue.Visibility = Visibility.Collapsed;
                 Show(animate);
-                    if(game.getAnimation("die") == null)
-                    {
-                        Display("Sorry something went wrong");
+                game.addPlayer();
+                game = new Game(game.Player);
+                codeRes.Text = "You lost";
+                codeRes.FontSize = 44;
+                Continue.Visibility = Visibility.Visible;
+                codeRes.FontSize = 14;
+                if (game.getAnimation("die") == null)
+                {
+                    Display("Sorry something went wrong");
                 }else
                 {
                     int lenght = game.getAnimation("die").EndPoint;

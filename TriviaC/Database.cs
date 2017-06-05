@@ -20,6 +20,7 @@ namespace TriviaC
     class Database
     {
         private HttpClient conn;
+        private int randQuestion;
         /// <summary>
         /// constructor 
         /// </summary>
@@ -72,12 +73,12 @@ namespace TriviaC
             {
                 int id = getNoQuestion("noQuestions.php").Result;
                 Random r = new Random();
-                int rand = r.Next((id-5) >= 5 ? (id - 5) : 1) + 1;
+                randQuestion = r.Next((id-5) >= 5 ? (id - 5) : 1) + 1;
                 conn = new HttpClient();
                 conn.BaseAddress = new Uri("http://localhost:80/questions.php");
                 var formContent = new FormUrlEncodedContent(new[]
                     {
-                    new KeyValuePair<string, string>("id", rand.ToString())
+                    new KeyValuePair<string, string>("id", randQuestion.ToString())
                 });
 
                 HttpResponseMessage req = conn.PostAsync("http://localhost:80/questions.php", formContent).Result;
@@ -169,6 +170,31 @@ namespace TriviaC
             }
         }
 
+        /// <summary>
+        /// gets the highest score and name from the database
+        /// </summary>
+        /// <returns> returns the questions </returns>
+        public async void setMultipleQuestions()
+        {
+            try
+            {
+                conn = new HttpClient();
+                conn.BaseAddress = new Uri("http://localhost:80/questionsID.php");
+                var formContent = new FormUrlEncodedContent(new[]
+                    {
+                    new KeyValuePair<string, string>("id", randQuestion.ToString())
+                });
+
+                HttpResponseMessage req = conn.PostAsync("http://localhost:80/questionsID.php", formContent).Result;
+                string content = await req.Content.ReadAsStringAsync();
+               
+            }
+            catch (Exception)
+            {
+                display("Cannot initiate a connection to the database please try again later");
+               
+            }
+        }
 
     }
 }
