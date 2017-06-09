@@ -15,10 +15,14 @@ namespace TriviaC
         private Database db;
         private int pos = -1;
         private int posP = -1;
+        private bool isMulty = false;
+        private bool isJoin = false;
+        private int multiQuestionID;
+        private int multiPlayerID;
         /// <summary>
         /// Constructor
         /// </summary>
-        public Game()
+        public Game(bool isMulty)
         {
             player = new Player();
             questions = new Question[10];
@@ -29,10 +33,16 @@ namespace TriviaC
             initAnimation();
             initFillQuestions();
             initHiPlayer();
+            this.isMulty = isMulty;
+            if (isMulty && !isJoin)
+            {
+               // db.setMultiPlayerQuestions();
+                MultiplePlayerQuestion();
+            }
         }/// <summary>
          /// Constructor
          /// </summary>
-        public Game(Player p)
+        public Game(Player p, bool isMulty)
         {
             player = p;
             questions = new Question[10];
@@ -43,7 +53,61 @@ namespace TriviaC
             initAnimation();
             initFillQuestions();
             initHiPlayer();
+            this.isMulty = isMulty;
+            if (isMulty && !isJoin)
+            {
+               // db.setMultiPlayerQuestions();
+                MultiplePlayerQuestion();
+            }
         }
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="p">Player</param>
+        /// <param name="isMulty"> true or false true if multiplayer false if not</param>
+        /// <param name="question"> question arrays</param>
+        /// <param name="animation"> animation arrays</param>
+        /// <param name="db"> database</param>
+        public Game(Player p, bool isMulty, Question[] question, Animation[] animation, Database db, int multiQuestionID, int multiPlayerID)
+        {
+            this.player = p;
+            this.questions = question;
+            this.animation = animation;
+            this.multiPlayerID = multiPlayerID;
+            this.multiQuestionID = multiQuestionID;
+            hiplayer = new Player[5];
+            this.db = db;
+            initHiPlayer();
+            this.isMulty = isMulty;
+            if (isMulty && !isJoin)
+            {
+                //db.setMultiPlayerQuestions();
+                MultiplePlayerQuestion();
+            }
+        }
+
+        public Game(Game g, bool isMulty)
+        {
+            this.player = g.Player;
+            this.questions = g.Questions;
+            this.animation = g.animation;
+            this.multiPlayerID = g.MultiPlayerID;
+            this.multiQuestionID = g.MultiQuestionID;
+            hiplayer = new Player[5];
+            this.db = g.Data;
+            this.isJoin = g.Join;
+            initHiPlayer();
+            this.isMulty = isMulty;
+            if (isMulty && !isJoin)
+            {
+                //db.setMultiPlayerQuestions();
+                MultiplePlayerQuestion();
+            }else if (isJoin)
+            {
+                initMultiPlayerQuestions();
+            }
+        }
+
         /// <summary>
         /// adds player to the database by passing it to the db instance
         /// </summary>
@@ -51,6 +115,18 @@ namespace TriviaC
         public void addPlayer()
         {
             db.addPlayer(player);
+        }
+
+        public void updatePlayer()
+        {
+            db.updatePlayer(player);
+        }
+        public bool IsMulty
+        {
+            get
+            {
+                return isMulty;
+            }
         }
         /// <summary>
         /// returns the player
@@ -69,12 +145,65 @@ namespace TriviaC
             }
         }
         /// <summary>
+        /// gets animations array
+        /// </summary>
+        public Animation[] Animations
+        {
+            get
+            {
+                return animation;
+            }
+        }
+        /// <summary>
+        /// gets questions array
+        /// </summary>
+        public Question[] Questions
+        {
+            get
+            {
+                return questions;
+            }
+        }
+        /// <summary>
+        /// gets database 
+        /// </summary>
+        public Database Data
+        {
+            get
+            {
+                return db;
+            }
+        }
+
+        public bool Join
+        {
+            get
+            {
+                return isJoin;
+            }
+        }
+
+        public int MultiQuestionID
+        {
+            get
+            {
+                return multiQuestionID;
+            }
+        }
+
+        public int MultiPlayerID
+        {
+            get
+            {
+                return multiPlayerID;
+            }
+        }
+        /// <summary>
         /// gets the next question
         /// </summary>
         /// <returns></returns>
         public Question getNextQuesiton()
         {
-            
             pos++;
             return pos < 10 ? questions[pos] : null;
         }
@@ -86,17 +215,61 @@ namespace TriviaC
             string s = db.getQuestions().Result;
             string[] stringSeparators = new string[] { "<br/>" };
             var res = s.Split(stringSeparators,51, StringSplitOptions.RemoveEmptyEntries);
-            string parse = "";
+            //string parse = "";
             int k = 0;
             for(int i = 0; i < res.Length / 2; i+=5)
             {
                 Question q = new Question(res[i], res[i + 1], res[i + 2], res[i + 3],res[i+4], "c#");
-                parse += res[i] + " " + res[i + 1] + " " + res[i + 2] + " " + res[i + 3] + " " + res[i + 4]+" " ;
+               // parse += res[i] + " " + res[i + 1] + " " + res[i + 2] + " " + res[i + 3] + " " + res[i + 4]+" " ;
                 questions[k] = q;
                 k += 2;
             }
         }
 
+        public bool joinGame(int id)
+        {
+            isJoin = true;
+            return db.joinGame(player, id).Result;
+        }
+
+        public bool waitingForSecondPlayer()
+        {
+            return db.isSecond(multiPlayerID).Result;
+        }
+        public bool isAvailable(int id)
+        {
+            multiPlayerID = id;
+            if (db.checkAvailable(id, player.getName(), multiQuestionID).Result)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// function that saves in the database the questions for the multiplayer game
+        /// </summary>
+        private void MultiplePlayerQuestion()
+        {
+            Random rt = new Random();
+            multiQuestionID = rt.Next(500000);
+            var res = db.getMultiPlayerQuestion(multiQuestionID).Result;
+            while(res == "false")
+            {
+                multiQuestionID = rt.Next(500000);
+                res = db.getMultiPlayerQuestion(multiQuestionID).Result;
+            }
+        }
+
+        private void initMultiPlayerQuestions()
+        {
+
+        }
+        /// <summary>
+        /// stores the fill in questions into the quesitons array
+        /// </summary>
         private void initFillQuestions()
         {
             string s = db.getFillQuestions().Result;

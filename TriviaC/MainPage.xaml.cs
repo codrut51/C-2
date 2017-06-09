@@ -38,7 +38,7 @@ namespace TriviaC
         public MainPage()
         {
             this.InitializeComponent();
-            game = new Game();
+            game = new Game(false);
             second.Visibility = Visibility.Collapsed;
             Gquestion.Visibility = Visibility.Collapsed;
             FillQuestions.Visibility = Visibility.Collapsed;
@@ -153,8 +153,12 @@ namespace TriviaC
         /// <param name="message">the message to be displayed</param>
         private async void Display(string message)
         {
-            MessageDialog ms = new MessageDialog(message);
-            await ms.ShowAsync();
+            try
+            {
+                MessageDialog ms = new MessageDialog(message);
+                await ms.ShowAsync();
+            }
+            catch (Exception) { }
         }
         /// <summary>
         /// Button click ... this function happens on button click
@@ -171,11 +175,19 @@ namespace TriviaC
             if (res.Length >= 4 && res.Length <= 50)
             {
                 username.Text = res;
-                Player p = new Player(res, 0);
-                game.Player = p;
-                Points.Text = "Points: " + p.getScore();
-               // 
-                Show(second);
+                if(game.Data.isUnique(res).Result)
+                {
+                    Player p = new Player(res, 0);
+                    game.Player = p;
+                    Points.Text = "Points: " + p.getScore();
+                    // 
+                    Show(second);
+                    game.addPlayer();
+                }
+                else
+                {
+                    Display("This name already exists please try again");
+                }   
             }
             else
             {
@@ -245,8 +257,8 @@ namespace TriviaC
                 game.Player.incrementScore(game.Player.getHeartsTotal() * 100);
                 Points.Text = "Points: " + game.Player.getScore();
                 MyUser.Text = "Name: " + game.Player.getName() + Environment.NewLine + "Score: " + game.Player.getScore();
-                game.addPlayer();
-                game = new Game(game.Player);
+                game = new Game(game.Player,game.IsMulty);
+                game.updatePlayer();
                 OtherColumn1.Text = "Higest Players: " + Environment.NewLine;
                 OtherColumn2.Text = "";
                 OtherColumn3.Text = "";
@@ -304,10 +316,32 @@ namespace TriviaC
         /// <summary>
         /// Button click ... this function happens on button click
         /// </summary>
-        private void MultiStart_Click(object sender, RoutedEventArgs e)
+        private async void MultiStart_Click(object sender, RoutedEventArgs e)
         {
-            Hide(FillQuestions);
-            Show(Gquestion);
+            game = new Game(game,true);
+            Random r = new Random();
+            int next = r.Next(500000);
+            while(game.isAvailable(next))
+            {
+                next = r.Next(500000);
+            }
+
+            ShowCode.Text = "Your game number is: " + next;
+            MultiStart.Visibility = Visibility.Collapsed;
+            textJoin.Visibility = Visibility.Collapsed;
+            CodeJoin.Visibility = Visibility.Collapsed;
+            join.Visibility = Visibility.Collapsed;
+            Task t = Task.Run(() => {
+                // Just loop.
+                while (!game.waitingForSecondPlayer())
+                {
+
+                }
+                getNext();
+                Hide(second);
+                Show(Gquestion);
+            });
+            await t.AsAsyncAction();
         }
         /// <summary>
         /// runs an animation for the complition questions
@@ -405,8 +439,8 @@ namespace TriviaC
                 Hide(FillQuestions);
                 Continue.Visibility = Visibility.Collapsed;
                 Show(animate);
-                game.addPlayer();
-                game = new Game(game.Player);
+                game.updatePlayer();
+                game = new Game(game.Player,game.IsMulty);
                 codeRes.Text = "You lost";
                 codeRes.FontSize = 44;
                 Continue.Visibility = Visibility.Visible;
@@ -428,6 +462,32 @@ namespace TriviaC
 
         private void join_Click(object sender, RoutedEventArgs e)
         {
+           if(CodeJoin.Text.Length != 0)
+            {
+                try
+                {
+                    int id = int.Parse(CodeJoin.Text);
+                    if(game.joinGame(id))
+                    {
+                        game = new Game(game, true);
+                        getNext();
+                        Hide(second);
+                        Show(Gquestion);
+                    }
+                    else
+                    {
+                        Display("The code name that you just imput is not a valid one");
+                    }
+                }catch(Exception)
+                {
+                    Display("Please insert only numbers");
+                }
+            }
+            else
+            {
+                Display("Please insert a code made out of numbers");
+            }
+            /*
             try // this try catch changes the background of the grid if you have 400 points
             {
                 String imagepath = "ms-appx:///Assets/ultimate win.png";
@@ -468,7 +528,7 @@ namespace TriviaC
                     }
                     
                 }
-            }
+            }*/
 
         }
 

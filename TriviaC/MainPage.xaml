@@ -23,17 +23,17 @@
         <PivotItem Header="PivotItem -1">
             <Grid/>
         </PivotItem>
-        <Grid x:Name="second" HorizontalAlignment="Stretch" Margin="-1064,1,1064,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Visibility="Collapsed">
+        <Grid x:Name="second" HorizontalAlignment="Stretch" Margin="-1064,1,1064,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Visibility="Visible">
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back2.png"/>
             </Grid.Background>
             <Ellipse Fill="#FF343434" HorizontalAlignment="Left" Height="30" Margin="98,51,0,0" Stroke="White" StrokeThickness="5" VerticalAlignment="Top" Width="30"/>
             <TextBlock x:Name="textBlock1_Copy1" HorizontalAlignment="Left" Margin="145,32,0,0" TextWrapping="Wrap" Text="Single Player" VerticalAlignment="Top" FontFamily="Papyrus" FontSize="45.333" Foreground="White"/>
             <Ellipse Fill="#FF343434" HorizontalAlignment="Left" Height="30" Margin="428,508,0,0" Stroke="White" StrokeThickness="5" VerticalAlignment="Top" Width="30"/>
-            <TextBlock x:Name="textBlock1_Copy2" HorizontalAlignment="Left" Margin="475,489,0,0" TextWrapping="Wrap" Text="Multiple Player" VerticalAlignment="Top" FontFamily="Papyrus" FontSize="45.333" Foreground="White"/>
+            <TextBlock x:Name="ShowCode" HorizontalAlignment="Left" Margin="475,489,0,0" TextWrapping="Wrap" Text="Multiple Player" VerticalAlignment="Top" FontFamily="Papyrus" FontSize="45.333" Foreground="White"/>
             <Button x:Name="MultiStart" Content="Start" HorizontalAlignment="Left" Margin="428,565,0,0" VerticalAlignment="Top" Height="69" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Click="MultiStart_Click"/>
-            <TextBlock x:Name="textBlock1_Copy3" HorizontalAlignment="Left" Margin="479,637,0,0" TextWrapping="Wrap" Text="Join: " VerticalAlignment="Top" FontFamily="Papyrus" FontSize="36" Foreground="White"/>
-            <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Margin="565,641,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="55" Width="250" FontSize="36" BorderThickness="0,0,0,2" Background="{x:Null}" Foreground="White" FontFamily="Papyrus" SelectionHighlightColor="{x:Null}" />
+            <TextBlock x:Name="textJoin" HorizontalAlignment="Left" Margin="479,637,0,0" TextWrapping="Wrap" Text="Join: " VerticalAlignment="Top" FontFamily="Papyrus" FontSize="36" Foreground="White"/>
+            <TextBox x:Name="CodeJoin" HorizontalAlignment="Left" Margin="565,641,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="55" Width="250" FontSize="36" BorderThickness="0,0,0,2" Background="{x:Null}" Foreground="White" FontFamily="Papyrus" SelectionHighlightColor="{x:Null}" InputScope="Number" />
             <Button x:Name="join" Content="OK" HorizontalAlignment="Left" Margin="834,637,0,0" VerticalAlignment="Top" Height="69" Width="106" BorderThickness="0" FontSize="29.333" FontFamily="Papyrus" Foreground="White" Background="#332F2F2F" Click="join_Click"/>
             <Button x:Name="MultiStart_Copy" Content="Start" HorizontalAlignment="Left" Margin="145,141,0,0" VerticalAlignment="Top" Height="69" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Click="button_StartSingle"/>
         </Grid>
@@ -64,7 +64,27 @@
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back3.png"/>
             </Grid.Background>
-            <TextBlock x:Name="FillCode" HorizontalAlignment="Center" Margin="85,80,85,0" TextWrapping="Wrap" Text="for(                                  )" VerticalAlignment="Center" Foreground="White" SelectionHighlightColor="{x:Null}" FontFamily="Papyrus" FontSize="16"/>
+            <TextBlock x:Name="FillCode" HorizontalAlignment="Center" Margin="85,100,85,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White" SelectionHighlightColor="{x:Null}" FontFamily="Papyrus" FontSize="22.667">
+        		<Run Text="int a = 2;"/>
+        		<LineBreak/>
+        		<Run Text="______(a)"/>
+        		<LineBreak/>
+        		<Run Text="{}{"/>
+        		<LineBreak/>
+        		<Run Text="&#x9;case 1:"/>
+        		<LineBreak/>
+        		<Run Text="&#x9;   person.die();"/>
+        		<LineBreak/>
+        		<Run Text="&#x9;   break;"/>
+        		<LineBreak/>
+        		<Run Text="&#x9;case 2:"/>
+        		<LineBreak/>
+        		<Run Text="&#x9;   person.jump();"/>
+        		<LineBreak/>
+        		<Run Text="&#x9;   break;"/>
+        		<LineBreak/>
+        		<Run Text="}"/>
+            </TextBlock>
             <TextBox x:Name="FillAnswer" HorizontalAlignment="Left" Margin="121,132,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="64" Width="578" FontFamily="Papyrus" FontSize="36" Background="{x:Null}" SelectionHighlightColor="{x:Null}" Foreground="White" BorderBrush="White" Grid.Row="1" BorderThickness="0,0,0,2"/>
             <Button x:Name="SubmitAnswer" Content="Submit" HorizontalAlignment="Left" Margin="746,132,0,0" VerticalAlignment="Top" Height="64" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Grid.Row="1" Click="SubmitAnswer_Click"/>
             <TextBlock x:Name="FillDesc" HorizontalAlignment="Left" Height="54" Margin="121,59,0,0" TextWrapping="Wrap" Text="Fill in the blanks to make the jump 10 times: " VerticalAlignment="Top" Width="780" Foreground="White" SelectionHighlightColor="{x:Null}" FontFamily="Papyrus" FontSize="36" Grid.Row="1"/>
