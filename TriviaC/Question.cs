@@ -23,6 +23,14 @@ namespace TriviaC
         public Question()
         {
 
+        }  
+
+        /// <summary>
+        /// constructor 
+        /// </summary>
+        public Question(string description)
+        {
+            this.description = description;
         }
         /// <summary>
         /// construcotr

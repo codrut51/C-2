@@ -204,7 +204,7 @@ namespace TriviaC
             {
                 Hide(FillQuestions);
                 Show(Gquestion);
-                if (currentQuestion != null)
+                if (currentQuestion.getQuestion() != game.End.getQuestion() && currentQuestion.getQuestion() != null)
                 {
                     qdesc.Text = currentQuestion.getQuestion();
                     if (qdesc.Text.Length <= 60)
@@ -227,7 +227,7 @@ namespace TriviaC
             }
             else//endif
             {
-                if (currentQuestion != null)
+                if (currentQuestion.getQuestion() != game.End.getQuestion() && currentQuestion.getQuestion() != null)
                 {
                     Hide(animate);
                     Hide(Gquestion);
@@ -243,7 +243,7 @@ namespace TriviaC
         private void Click_Continue(object sender, RoutedEventArgs e)
         {
             Hide(animate);
-            if(currentQuestion != null)
+            if(currentQuestion.getQuestion() != game.End.getQuestion() && currentQuestion.getQuestion() != null) 
             {
                 Show(Gquestion);
             }
@@ -424,7 +424,6 @@ namespace TriviaC
                 await Task.Delay(TimeSpan.FromSeconds(0.25));
                 SetImage(current, game.Player.Heart.runAnimation());
             }
-            Task.Delay(2000).Wait();
             if(current.Equals(h1))
             {
                 current = h2;
@@ -443,7 +442,6 @@ namespace TriviaC
                 game = new Game(game.Player,game.IsMulty);
                 codeRes.Text = "You lost";
                 codeRes.FontSize = 44;
-                Continue.Visibility = Visibility.Visible;
                 codeRes.FontSize = 14;
                 if (game.getAnimation("die") == null)
                 {
@@ -469,7 +467,7 @@ namespace TriviaC
                     int id = int.Parse(CodeJoin.Text);
                     if(game.joinGame(id))
                     {
-                        game = new Game(game, true);
+                        game = new Game(game, true, id);
                         getNext();
                         Hide(second);
                         Show(Gquestion);

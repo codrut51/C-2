@@ -23,7 +23,7 @@
         <PivotItem Header="PivotItem -1">
             <Grid/>
         </PivotItem>
-        <Grid x:Name="second" HorizontalAlignment="Stretch" Margin="-1064,1,1064,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Visibility="Visible">
+        <Grid x:Name="second" HorizontalAlignment="Stretch" Margin="-1064,1,1064,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back2.png"/>
             </Grid.Background>
@@ -124,7 +124,7 @@
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back5.jpg"/>
             </Grid.Background>
-            <TextBlock x:Name="MyUser" HorizontalAlignment="Left" Margin="100,200,0,0" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Top" FontFamily="Papyrus" FontSize="33.333" Foreground="White"/>
+            <TextBlock x:Name="MyUser" HorizontalAlignment="Left" Margin="100,171,0,0" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Top" FontFamily="Papyrus" FontSize="33.333" Foreground="White"/>
             <TextBlock x:Name="OtherColumn1" HorizontalAlignment="Left" Margin="100,0,0,80" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Bottom" FontFamily="Papyrus" FontSize="26.667" Foreground="White"/>
             <TextBlock x:Name="OtherColumn2" HorizontalAlignment="Right" Margin="0,0,90,100" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Bottom" FontFamily="Papyrus" FontSize="26.667" Foreground="White"/>
             <TextBlock x:Name="OtherColumn3" HorizontalAlignment="Right" Margin="0,0,90,100" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Bottom" FontFamily="Papyrus" FontSize="26.667" Foreground="White"/>

@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SQLite.Core;
-using SQLite.Net;
-using SQLitePCL;
 using Windows.UI.Popups;
 using System.IO;
 using Windows.Storage;
@@ -377,7 +374,7 @@ namespace TriviaC
                 conn.BaseAddress = new Uri("http://localhost:80/joinGame.php");
                 var formContent = new FormUrlEncodedContent(new[]
                     {
-                    new KeyValuePair<string, string>("name", p.getName()),
+                    new KeyValuePair<string, string>("username", p.getName()),
                     new KeyValuePair<string, string>("id",id.ToString())
                 });
 
@@ -389,6 +386,34 @@ namespace TriviaC
             {
                 display("Cannot initiate a connection to the database please try again later");
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// checks if the name chousen is unique 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<string> MultiPlayerQuestions(int id)
+        {
+            try
+            {
+                //display(id.ToString());
+                conn = new HttpClient();
+                conn.BaseAddress = new Uri("http://localhost:80/MultiPlayerQuestions.php");
+                var formContent = new FormUrlEncodedContent(new[]
+                    {
+                    new KeyValuePair<string, string>("id",id.ToString())
+                });
+
+                HttpResponseMessage req = conn.PostAsync("http://localhost:80/MultiPlayerQuestions.php", formContent).Result;
+                string content = await req.Content.ReadAsStringAsync();
+                return content;
+            }
+            catch (Exception)
+            {
+                display("Cannot initiate a connection to the database please try again later");
+                return null;
             }
         }
     }

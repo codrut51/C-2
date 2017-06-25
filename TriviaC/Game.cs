@@ -10,6 +10,7 @@ namespace TriviaC
     {
         private Player player;
         private Question[] questions;
+        private Question end;
         private Animation[] animation;
         private Player[] hiplayer;
         private Database db;
@@ -29,6 +30,7 @@ namespace TriviaC
             animation = new Animation[3];
             hiplayer = new Player[5];
             db = new Database();
+            end = new Question("End");
             initQuestions();
             initAnimation();
             initFillQuestions();
@@ -39,9 +41,14 @@ namespace TriviaC
                // db.setMultiPlayerQuestions();
                 MultiplePlayerQuestion();
             }
-        }/// <summary>
-         /// Constructor
-         /// </summary>
+            else if (isJoin)
+            {
+                initMultiPlayerQuestions();
+            }
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Game(Player p, bool isMulty)
         {
             player = p;
@@ -49,6 +56,7 @@ namespace TriviaC
             animation = new Animation[3];
             hiplayer = new Player[5];
             db = new Database();
+            end = new Question("End");
             initQuestions();
             initAnimation();
             initFillQuestions();
@@ -59,24 +67,23 @@ namespace TriviaC
                // db.setMultiPlayerQuestions();
                 MultiplePlayerQuestion();
             }
+            else if (isJoin)
+            {
+                initMultiPlayerQuestions();
+            }
         }
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="p">Player</param>
-        /// <param name="isMulty"> true or false true if multiplayer false if not</param>
-        /// <param name="question"> question arrays</param>
-        /// <param name="animation"> animation arrays</param>
-        /// <param name="db"> database</param>
-        public Game(Player p, bool isMulty, Question[] question, Animation[] animation, Database db, int multiQuestionID, int multiPlayerID)
+
+        public Game(Game g, bool isMulty, int multiPlayerID)
         {
-            this.player = p;
-            this.questions = question;
-            this.animation = animation;
+            this.player = g.Player;
+            this.questions = g.Questions;
+            this.animation = g.animation;
             this.multiPlayerID = multiPlayerID;
-            this.multiQuestionID = multiQuestionID;
+            this.multiQuestionID = g.MultiQuestionID;
             hiplayer = new Player[5];
-            this.db = db;
+            end = new Question("End");
+            this.db = g.Data;
+            this.isJoin = g.Join;
             initHiPlayer();
             this.isMulty = isMulty;
             if (isMulty && !isJoin)
@@ -84,7 +91,12 @@ namespace TriviaC
                 //db.setMultiPlayerQuestions();
                 MultiplePlayerQuestion();
             }
+            else if (isJoin)
+            {
+                initMultiPlayerQuestions();
+            }
         }
+       
 
         public Game(Game g, bool isMulty)
         {
@@ -94,6 +106,7 @@ namespace TriviaC
             this.multiPlayerID = g.MultiPlayerID;
             this.multiQuestionID = g.MultiQuestionID;
             hiplayer = new Player[5];
+            end = new Question("End");
             this.db = g.Data;
             this.isJoin = g.Join;
             initHiPlayer();
@@ -205,7 +218,15 @@ namespace TriviaC
         public Question getNextQuesiton()
         {
             pos++;
-            return pos < 10 ? questions[pos] : null;
+            return pos < 10 ? questions[pos] : end;
+        }
+
+        public Question End
+        {
+            get
+            {
+                return end;
+            }
         }
         /// <summary>
         /// saves the questions into an array of questions from the database
@@ -215,12 +236,12 @@ namespace TriviaC
             string s = db.getQuestions().Result;
             string[] stringSeparators = new string[] { "<br/>" };
             var res = s.Split(stringSeparators,51, StringSplitOptions.RemoveEmptyEntries);
-            //string parse = "";
+            string parse = "";
             int k = 0;
             for(int i = 0; i < res.Length / 2; i+=5)
             {
-                Question q = new Question(res[i], res[i + 1], res[i + 2], res[i + 3],res[i+4], "c#");
-               // parse += res[i] + " " + res[i + 1] + " " + res[i + 2] + " " + res[i + 3] + " " + res[i + 4]+" " ;
+                Question q = new Question(res[i], res[i + 1], res[i + 2], res[i + 3],res[i+4]);
+                parse += res[i] + " " + res[i + 1] + " " + res[i + 2] + " " + res[i + 3] + " " + res[i + 4]+" " ;
                 questions[k] = q;
                 k += 2;
             }
@@ -265,7 +286,31 @@ namespace TriviaC
 
         private void initMultiPlayerQuestions()
         {
-
+            string s = db.MultiPlayerQuestions(multiPlayerID).Result;
+            //db.display(s);
+            string[] stringSeparators = new string[] { "<br/>" };
+            var res = s.Split(stringSeparators, 51, StringSplitOptions.RemoveEmptyEntries);
+            int j = 0;
+            int i = 0;
+            bool sw = true;
+            questions = new Question[10];
+            while(j < res.Length)
+            {
+                if(sw)
+                {
+                    questions[i] = new Question(res[j], res[j+1], res[j+2], res[j+3], res[j+4]);
+                    i++;
+                    j += 5;
+                    sw = false;
+                }
+                else
+                {
+                    questions[i] = new Question(res[j], res[j + 1], res[j + 2], res[j + 3]);
+                    i++;
+                    j += 4;
+                    sw = true;
+                }
+            }
         }
         /// <summary>
         /// stores the fill in questions into the quesitons array
