@@ -38,7 +38,13 @@ namespace TriviaC
         public MainPage()
         {
             this.InitializeComponent();
-            game = new Game(false);
+            try
+            {
+                game = new Game(false);
+            }catch(Exception)
+            {
+
+            }
             second.Visibility = Visibility.Collapsed;
             Gquestion.Visibility = Visibility.Collapsed;
             FillQuestions.Visibility = Visibility.Collapsed;
