@@ -8,6 +8,7 @@ namespace TriviaC
 {
     class Game
     {
+        /* 
         private Player player;
         private Question[] questions;
         private Question end;
@@ -20,7 +21,7 @@ namespace TriviaC
         private bool isJoin = false;
         private int multiQuestionID;
         private int multiPlayerID;
-      /*  /// <summary>
+        /// <summary>
         /// Constructor
         /// </summary>
         public Game(bool isMulty)

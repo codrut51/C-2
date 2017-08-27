@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TriviaC
-{
+{   /*
     class Question
     {
         private string description;
@@ -133,8 +133,8 @@ namespace TriviaC
             return animation;
         }
     }
-
-    public struct question
+    */
+    public struct Question
     {
         public string description;
         public string ansa;
@@ -144,6 +144,7 @@ namespace TriviaC
         public string complitionQuestion;
         public string complitionAnswer;
         public string animation;
+        public int difficulty;
         public bool isMulty;
         public bool isFillIn;
     }

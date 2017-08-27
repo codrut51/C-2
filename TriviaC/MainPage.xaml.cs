@@ -39,7 +39,13 @@ namespace TriviaC
         public MainPage()
         {
             this.InitializeComponent();
-            Database.writeData();
+            Database db = new Database();
+            List<Question> q = db.GetMultiQuestion();
+            List<Question> q1 = db.GetFillInQuestion();
+            List<Player> p = db.GetHiPlayer();
+            Debug.WriteLine(q[0].description);
+            Debug.WriteLine(q1[0].description);
+            Debug.WriteLine(p[0].getName());
         }
           
         }
