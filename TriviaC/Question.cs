@@ -133,4 +133,19 @@ namespace TriviaC
             return animation;
         }
     }
+
+    public struct question
+    {
+        public string description;
+        public string ansa;
+        public string ansb;
+        public string ansc;
+        public string corrans;
+        public string complitionQuestion;
+        public string complitionAnswer;
+        public string animation;
+        public bool isMulty;
+        public bool isFillIn;
+    }
+
 }

@@ -20,7 +20,7 @@ namespace TriviaC
         private bool isJoin = false;
         private int multiQuestionID;
         private int multiPlayerID;
-        /// <summary>
+      /*  /// <summary>
         /// Constructor
         /// </summary>
         public Game(bool isMulty)
@@ -408,6 +408,6 @@ namespace TriviaC
                 return true;
             }
             return false;
-        }
+        } */
     }
 }
