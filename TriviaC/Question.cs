@@ -146,7 +146,6 @@ namespace TriviaC
         public string animation;
         public int difficulty;
         public bool isMulty;
-        public bool isFillIn;
     }
 
 }

@@ -67,6 +67,13 @@ namespace TriviaC
             }
         }
 
+        public int CurrentPoint
+        {
+            get
+            {
+                return pos;
+            }
+        }
         /// <summary>
         /// returns the picture that needs to be displayed
         /// </summary>

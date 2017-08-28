@@ -49,7 +49,7 @@ namespace TriviaC
                 conn.Open();
                 //this will copy the connection for using it in different commands
                 cmd.Connection = conn;
-                sql = "select * from `multiquestion`";
+                sql = "select * from `multiquestion` limit 5";
                 //this is like mysqli_query does the same thing
                 cmd.CommandText = sql;
                 cmd.ExecuteNonQuery();
@@ -88,7 +88,7 @@ namespace TriviaC
                 conn.Open();
                 //this will copy the connection for using it in different commands
                 cmd.Connection = conn;
-                sql = "select * from `fillquestion`";
+                sql = "select * from `fillquestion` where difficulty = '1' limit 5";
                 //this is like mysqli_query does the same thing
                 cmd.CommandText = sql;
                 cmd.ExecuteNonQuery();
@@ -98,7 +98,7 @@ namespace TriviaC
                 while (ms.Read())
                 {
                     Question q = new Question();
-                    q.isFillIn = true;
+                    q.isMulty = false;
                     q.description = ms.GetString("question");
                     q.complitionQuestion = ms.GetString("code");
                     q.complitionAnswer = ms.GetString("corrans");
@@ -137,6 +137,75 @@ namespace TriviaC
                     Player p = new Player(ms.GetString("name"), int.Parse(ms.GetString("hiscore")));
                     hip.Add(p);
                 }
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Creating an user 
+        /// </summary>
+        /// <returns></returns>
+        public bool CreatePlayer(String name)
+        {
+            try
+            {
+                cmd = new MySqlCommand();
+                //this will open a connection to the connection string imputed into MySqlConnection
+                conn.Open();
+                //this will copy the connection for using it in different commands
+                cmd.Connection = conn;
+                sql = "select * from `user` where name = '" + name + "'";
+                //this is like mysqli_query does the same thing
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+                //this is reading the data from the created sql 
+                MySqlDataReader ms = cmd.ExecuteReader();
+                //ms.Read() it acts like while($res = mysqli_fetch_assoc(cmd))
+                if (ms.Read())
+                {
+                    Display("The name already exists please try again with another name");
+                    conn.Close();
+                    return false;
+                }
+                else
+                {
+                    conn.Close();
+                    cmd = new MySqlCommand();
+                    //this will open a connection to the connection string imputed into MySqlConnection
+                    conn.Open();
+                    //this will copy the connection for using it in different commands
+                    cmd.Connection = conn;
+                    sql = "insert into `user` (`name`) values ('" + name + "')";
+                    cmd.CommandText = sql;
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex.ToString());
+                return false;
+            }
+        }
+
+        public void UpdatePlayer(Player p)
+        {
+            try
+            {
+                cmd = new MySqlCommand();
+                //this will open a connection to the connection string imputed into MySqlConnection
+                conn.Open();
+                //this will copy the connection for using it in different commands
+                cmd.Connection = conn;
+                sql = "UPDATE `user` SET `name`='" + p.getName() + "',`hiscore`='" + p.getScore() + "' WHERE name = '" + p.getName() + "'";
+                //this is like mysqli_query does the same thing
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
                 conn.Close();
             }
             catch (Exception ex)

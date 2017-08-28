@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,107 @@ namespace TriviaC
 {
     class Game
     {
+        private Database db;
+        private Player p;
+        private Question End;
+        private int i, j, x;
+        private Dictionary<String, Animation> animations;
+        public Game()
+        {
+            db = new Database();
+            i = j = x = -1;
+            End.description = "End";
+            animations = new Dictionary<string, Animation>();
+            animations["die"] = new Animation("die", 1, 14);
+            animations["heart"] = new Animation("heart", 1, 5);
+            animations["jump"] = new Animation("jump", 1, 16);
+            animations["run"] = new Animation("run", 1, 9);
+        }
+
+        public bool addPlayer(String name)
+        {
+            if (db.CreatePlayer(name))
+            {
+                p = new Player(name, 0);
+                return true;
+            }
+            return false;
+        }
+
+        public Player player
+        {
+            get
+            {
+                return p;
+            }
+        }
+
+        public Database Datab
+        {
+            get
+            {
+                return db;
+            }
+        }
+
+        public void updatePlayer()
+        {
+            db.UpdatePlayer(p);
+        }
+
+        public Dictionary<String, Animation> Animations{
+            get
+            {
+                return animations;
+            }
+        }
+
+        public Question nextQuestion()
+        {
+            x++;
+            if (x % 2 == 0)
+            {
+                i++;
+                return i < db.GetMultiQuestion().Count ? db.GetMultiQuestion()[i] : End;
+            }
+            else
+            {
+                j++;
+                Debug.WriteLine("i= " + i + " j= " + j);
+                return j < db.GetFillInQuestion().Count ? db.GetFillInQuestion()[j] : End;
+            }            
+        }
+
+        public bool checkAnswer(string yourAnswer)
+        {
+            if(x % 2 == 0)
+            {
+                if(db.GetMultiQuestion()[i].corrans == yourAnswer)
+                {
+                    p.incrementScore();
+                    return true;
+                }
+                else
+                {
+                    p.loseHeart();
+                    return false;
+                }
+                
+            }
+            else
+            {
+                if(db.GetFillInQuestion()[j].complitionAnswer == yourAnswer)
+                {
+                    p.incrementScore();
+                    return true;
+                }
+                else
+                {
+                    p.loseHeart();
+                    return false;
+                }
+            }
+        }
         /* 
         private Player player;
         private Question[] questions;
