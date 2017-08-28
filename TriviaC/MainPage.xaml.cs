@@ -46,6 +46,7 @@ namespace TriviaC
             game = new Game();
             SetImage();
             looseHeart();
+            current.isMulty = true;
             currentImage = h1;
             correct = 0;
         }
@@ -76,7 +77,7 @@ namespace TriviaC
             try
             {
                 DispatcherTimer x = new DispatcherTimer();
-                x.Interval = new TimeSpan(1000000); //1 = 100 nanoseconds => 1s = 10^9 nanoseconds
+                x.Interval = new TimeSpan(1500000); //1 = 100 nanoseconds => 1s = 10^9 nanoseconds
                 x.Start();
                 x.Tick += X_Tick;
             }
@@ -117,6 +118,7 @@ namespace TriviaC
                 }
                 else
                 {
+                    animation.CurrentPoint = 0;
                     correct = 0;
                     if(currentImage == h1)
                     {
@@ -133,6 +135,31 @@ namespace TriviaC
                         Hide(FillQuestions);
                         Show(Win);
                     }
+                    Debug.WriteLine(currentImage.Name);
+                }
+            }
+
+            if(!current.isMulty && correct == 1)
+            {
+                if(current.animation != "none")
+                {
+                    Debug.WriteLine(current.animation);
+                    var animation = game.Animations[current.animation];
+                    if (animation.CurrentPoint < animation.EndPoint)
+                    {
+                        SetImage(animation1, animation.runAnimation());
+                    }
+                    else
+                    {
+                        animation.CurrentPoint = 0;
+                        correct = 0;
+                    }
+                }
+                else
+                {
+                    Hide(animate);
+                    nextQuestion();
+                    correct = 0;
                 }
             }
         }
@@ -149,8 +176,9 @@ namespace TriviaC
                 m.Children.Add(h3);
                 m.Children.Add(Points);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.WriteLine(e.ToString());
             }
             Thickness margin = m.Margin;
             margin.Left = 0;
@@ -192,8 +220,8 @@ namespace TriviaC
             {
                 if (current.isMulty)
                 {
-                    /*Hide(FillQuestions);
-                    Show(Gquestion);*/
+                    Hide(FillQuestions);
+                    Show(Gquestion);
                     qdesc.Text = current.description;
                     answerA.Content = current.ansa;
                     answerB.Content = current.ansb;
@@ -201,19 +229,28 @@ namespace TriviaC
                 }
                 else
                 {
-                   /* Hide(Gquestion);
+                    Hide(Gquestion);
                     Show(FillQuestions);
                     FillCode.Text = current.complitionQuestion;
-                    FillDesc.Text = current.description;*/
+                    FillDesc.Text = current.description;
                 }
             }
             else
             {
                 HiScore1.Text = "";
+                HiScore2.Text = "";
                 HiScore.Text = "";
+                int pos = 0;
                 foreach(Player p in game.Datab.GetHiPlayer())
                 {
-                    HiScore.Text += p.getName() + " => " + p.getScore() + Environment.NewLine;  
+                    if (pos < 3)
+                    {
+                        HiScore.Text += p.getName() + " => " + p.getScore() + Environment.NewLine;
+                    } else
+                    {
+                        HiScore2.Text += p.getName() + " => " + p.getScore() + Environment.NewLine;
+                    }
+                    pos++;
                 }
                 MyUser.Text = game.player.getName() + " => " + game.player.getScore();
                 Hide(Gquestion);
@@ -251,14 +288,34 @@ namespace TriviaC
                         FillAnswer.Text = "";
                         break;
                 }
-                if(!game.checkAnswer(choice))
+                bool ch = game.checkAnswer(choice);
+                if (!ch)
                 {
                     looseHeart();
                     correct = -1;
                 }
+                else if (ch && !current.isMulty)
+                {
+                    correct = 1;
+                    if(current.animation != "none")
+                    {
+                        Hide(Gquestion);
+                        Hide(FillQuestions);
+                        Show(animate);
+                    }
+                }
                 Points.Text = "Points: " + game.player.getScore();
-                nextQuestion();
+                if(current.isMulty)
+                {
+                    nextQuestion();
+                }
             }
+        }
+
+        private void Continue_Click(object sender, RoutedEventArgs e)
+        {
+            Hide(animate);
+            nextQuestion();
         }
     }
  }

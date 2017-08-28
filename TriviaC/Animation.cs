@@ -73,6 +73,10 @@ namespace TriviaC
             {
                 return pos;
             }
+            set
+            {
+                pos = value;
+            }
         }
         /// <summary>
         /// returns the picture that needs to be displayed
