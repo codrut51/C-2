@@ -24,6 +24,7 @@ namespace TriviaC
             animations["heart"] = new Animation("heart", 1, 5);
             animations["jump"] = new Animation("jump", 1, 16);
             animations["run"] = new Animation("run", 1, 9);
+            animations["dance"] = new Animation("dance", 1, 26);
         }
 
         public bool addPlayer(String name)

@@ -80,10 +80,42 @@ namespace TriviaC
                 x.Interval = new TimeSpan(1500000); //1 = 100 nanoseconds => 1s = 10^9 nanoseconds
                 x.Start();
                 x.Tick += X_Tick;
+                DispatcherTimer y = new DispatcherTimer();
+                y.Interval = new TimeSpan(1100000); //1 = 100 nanoseconds => 1s = 10^9 nanoseconds
+                y.Start();
+                y.Tick += Y_Tick;
             }
             catch(Exception ex)
             {
 
+            }
+        }
+
+        private void Y_Tick(object sender, object e)
+        {
+            if (!current.isMulty && correct == 1)
+            {
+                Debug.WriteLine(current.animation);
+                if (current.animation != "none")
+                {
+                    Debug.WriteLine(current.animation);
+                    var animation = game.Animations[current.animation];
+                    if (animation.CurrentPoint < animation.EndPoint)
+                    {
+                        SetImage(animation1, animation.runAnimation());
+                    }
+                    else
+                    {
+                        animation.CurrentPoint = 0;
+                        correct = 0;
+                    }
+                }
+                else
+                {
+                    Hide(animate);
+                    nextQuestion();
+                    correct = 0;
+                }
             }
         }
 
@@ -136,30 +168,6 @@ namespace TriviaC
                         Show(Win);
                     }
                     Debug.WriteLine(currentImage.Name);
-                }
-            }
-
-            if(!current.isMulty && correct == 1)
-            {
-                if(current.animation != "none")
-                {
-                    Debug.WriteLine(current.animation);
-                    var animation = game.Animations[current.animation];
-                    if (animation.CurrentPoint < animation.EndPoint)
-                    {
-                        SetImage(animation1, animation.runAnimation());
-                    }
-                    else
-                    {
-                        animation.CurrentPoint = 0;
-                        correct = 0;
-                    }
-                }
-                else
-                {
-                    Hide(animate);
-                    nextQuestion();
-                    correct = 0;
                 }
             }
         }
@@ -241,6 +249,10 @@ namespace TriviaC
                 HiScore2.Text = "";
                 HiScore.Text = "";
                 int pos = 0;
+                if(game.player.getHeartsTotal() == 3)
+                {
+                    game.player.incrementScore(300);
+                }
                 foreach(Player p in game.Datab.GetHiPlayer())
                 {
                     if (pos < 3)
@@ -299,6 +311,7 @@ namespace TriviaC
                     correct = 1;
                     if(current.animation != "none")
                     {
+                        codeRes.Text = current.complitionQuestion;
                         Hide(Gquestion);
                         Hide(FillQuestions);
                         Show(animate);
