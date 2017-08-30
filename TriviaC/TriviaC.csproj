@@ -195,6 +195,7 @@
     <Content Include="Assets\Images\run7.png" />
     <Content Include="Assets\Images\run8.png" />
     <Content Include="Assets\Images\run9.png" />
+    <Content Include="Assets\Images\spritesheet.png" />
     <Content Include="Assets\port.png" />
     <Content Include="Assets\ultimate win.png" />
     <Content Include="Properties\Default.rd.xml" />

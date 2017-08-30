@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage.Streams;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -34,6 +36,9 @@ namespace TriviaC
         private Question current;
         private int correct; // 1 correct 0 none -1 incorrect
         private Image currentImage;
+        private Uri old = null;
+        private List<BitmapImage> preloadImages;
+        private int runAnim = 0;
         //private Image current; //the current image to be modified
         //private bool isChoice = true;
         //private Question currentQuestion;
@@ -49,6 +54,7 @@ namespace TriviaC
             current.isMulty = true;
             currentImage = h1;
             correct = 0;
+            preloadImages = new List<BitmapImage>();
         }
         /// <summary>
         /// sets the image for the player life (hearts) 
@@ -93,7 +99,66 @@ namespace TriviaC
 
         private void Y_Tick(object sender, object e)
         {
-            if (!current.isMulty && correct == 1)
+            try
+            {
+                Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+           () => {
+                // do some work connected with the UI
+                if (!current.isMulty && correct == 1)
+               {
+                   Debug.WriteLine(current.animation);
+                   if (current.animation != "none")
+                   {
+                       if (runAnim < preloadImages.Count)
+                       {
+                           //SetImage(animation1, animation.runAnimation());
+                           anim.ImageSource = preloadImages[runAnim];
+                           runAnim++;
+
+                       }
+                       else
+                       {
+                           runAnim = 0;
+                           correct = 0;
+                           preloadImages = new List<BitmapImage>();
+                       }
+                   }
+               }
+               try
+               {
+                   if (game.player.getHeartsTotal() == 0 && correct == -1)
+                   {
+                       if (runAnim < preloadImages.Count)
+                       {
+                           //SetImage(animation1, animation.runAnimation());
+                           anim.ImageSource = preloadImages[runAnim];
+                           runAnim++;
+
+                       }
+                       else
+                       {
+                           runAnim = 0;
+                           correct = 0;
+                           preloadImages = new List<BitmapImage>();
+                       }
+                   }
+               }
+               catch (Exception)
+               {
+
+               }
+                /*List<int> frameCoordinates = _animator.NextFrame();
+                this.SpriteSheetOffset.X = frameCoordinates[0];
+                this.SpriteSheetOffset.Y = frameCoordinates[1]; */
+
+           }).GetResults();
+            }
+            catch(Exception ex)
+            {
+
+            }
+           
+            /*if (!current.isMulty && correct == 1)
             {
                 Debug.WriteLine(current.animation);
                 if (current.animation != "none")
@@ -102,7 +167,23 @@ namespace TriviaC
                     var animation = game.Animations[current.animation];
                     if (animation.CurrentPoint < animation.EndPoint)
                     {
-                        SetImage(animation1, animation.runAnimation());
+                        SetImage(Rectangle, animation.runAnimation());
+                    }
+                    else
+                    {
+                        animation.CurrentPoint = 0;
+                        correct = 0;
+                    }
+                }                
+            }
+            try
+            {
+                if (game.player.getHeartsTotal() == 0 && correct == -1)
+                {
+                    var animation = game.Animations["die"];
+                    if (animation.CurrentPoint < animation.EndPoint)
+                    {
+                        SetImage(Rectangle, animation.runAnimation());
                     }
                     else
                     {
@@ -110,15 +191,34 @@ namespace TriviaC
                         correct = 0;
                     }
                 }
-                else
-                {
-                    Hide(animate);
-                    nextQuestion();
-                    correct = 0;
-                }
             }
+            catch (Exception)
+            {
+
+            }*/
+
         }
 
+        /// <summary>
+        /// sets a image to a Image component in the assignment
+        /// </summary>
+        /// <param name="a">the image component</param>
+        /// <param name="s">the image name and extention</param>
+        private BitmapImage getImage(String s)
+        {
+            try
+            {
+                String imagepath = "ms-appx:///Assets/Images/" + s;
+                Uri uri = new Uri(imagepath, UriKind.RelativeOrAbsolute);
+                BitmapImage b = new BitmapImage(uri);
+               
+                return b;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
         /// <summary>
         /// sets a image to a Image component in the assignment
         /// </summary>
@@ -159,13 +259,6 @@ namespace TriviaC
                     else if(currentImage == h2)
                     {
                         currentImage = h3;
-                    }
-                    else
-                    {
-                        Hide(Gquestion);
-                        Hide(second);
-                        Hide(FillQuestions);
-                        Show(Win);
                     }
                     Debug.WriteLine(currentImage.Name);
                 }
@@ -303,7 +396,28 @@ namespace TriviaC
                 bool ch = game.checkAnswer(choice);
                 if (!ch)
                 {
-                    looseHeart();
+                    if(game.player.getHeartsTotal() == 0)
+                    {
+                        var anim = game.Animations["die"];
+                        for (int i = anim.StartPoint; i <= anim.EndPoint; i++)
+                        {
+                            try
+                            {
+                                String imagepath = "ms-appx:///Assets/Images/" + anim.runAnimation();
+                                Uri uri = new Uri(imagepath, UriKind.RelativeOrAbsolute); new BitmapImage(uri);
+                                preloadImages.Add(new BitmapImage(uri));
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+                        anim.CurrentPoint = 0;
+                        codeRes.Text = "You Lost!";
+                        Hide(Gquestion);
+                        Hide(FillQuestions);
+                        Show(animate);
+                    }
                     correct = -1;
                 }
                 else if (ch && !current.isMulty)
@@ -311,6 +425,21 @@ namespace TriviaC
                     correct = 1;
                     if(current.animation != "none")
                     {
+                        var anim = game.Animations[current.animation];
+                        for (int i = anim.StartPoint; i <= anim.EndPoint; i++)
+                        {
+                            try
+                            {
+                                String imagepath = "ms-appx:///Assets/Images/" + anim.runAnimation();
+                                Uri uri = new Uri(imagepath, UriKind.RelativeOrAbsolute); new BitmapImage(uri);
+                                preloadImages.Add(new BitmapImage(uri));
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+                        anim.CurrentPoint = 0;
                         codeRes.Text = current.complitionQuestion;
                         Hide(Gquestion);
                         Hide(FillQuestions);

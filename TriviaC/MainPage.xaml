@@ -38,7 +38,7 @@
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back5.jpg"/>
             </Grid.Background>
-           <RelativePanel HorizontalAlignment="Stretch" Height="AUTO" VerticalAlignment="Stretch" Width="aUTO">
+            <RelativePanel HorizontalAlignment="Stretch" Height="AUTO" VerticalAlignment="Stretch" Width="aUTO">
                 <TextBlock x:Name="qdesc" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="100,160,100,0" TextWrapping="Wrap" Text="In C#.NET  how is it possible to prevent inheritance?" SelectionHighlightColor="#FF404040" Foreground="#FFF3F3F3" FontFamily="Papyrus" FontSize="33.333" VerticalAlignment="Top"/>
                 <TextBlock x:Name="textBlock2_Copy" Margin="180,60,0,0" Height="62" TextWrapping="Wrap" Text="A." VerticalAlignment="Top" Width="44" SelectionHighlightColor="#FF404040" Foreground="#FFF3F3F3" FontFamily="Papyrus" FontSize="36" RelativePanel.Below="qdesc"/>
                 <TextBlock x:Name="textBlock2_Copy1" Margin="180,60,0,0" Height="62" TextWrapping="Wrap" Text="B." VerticalAlignment="Top" Width="44" SelectionHighlightColor="#FF404040" Foreground="#FFF3F3F3" FontFamily="Papyrus" FontSize="36" RelativePanel.Below="answerA"/>
@@ -91,7 +91,7 @@
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back4.png"/>
             </Grid.Background>
-            <Image x:Name="animation1" HorizontalAlignment="Center" Height="238" Margin="0,104,0,0" VerticalAlignment="Top" Width="238"/>
+            <!--<Image x:Name="animation1" HorizontalAlignment="Center" Height="238" Margin="0,104,0,0" VerticalAlignment="Top" Width="238"/>-->
             <TextBlock x:Name="codeRes" Margin="80,280,77,0" TextWrapping="Wrap" FontFamily="Papyrus" FontSize="18.667" Foreground="White" SelectionHighlightColor="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center">
             	<Run Text="int a = 2;"/>
             	<LineBreak/>
@@ -116,6 +116,19 @@
             	<Run Text="}"/>
             </TextBlock>
             <Button x:Name="Continue" Content="Continue" HorizontalAlignment="Right" Margin="0,0,90,71" VerticalAlignment="Bottom" Height="64" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Click="Continue_Click"/>
+            <Canvas HorizontalAlignment="Center" Height="238" Margin="0,82,0,0" VerticalAlignment="Top" Width="219">
+                <Rectangle Width="238" Height="219">
+                    <Rectangle.Fill>
+                        <ImageBrush x:Name="anim" ImageSource="Assets/Images/spritesheet.png" 
+                    Stretch="Uniform">
+                            <ImageBrush.Transform>
+                                <TranslateTransform x:Name="SpriteSheetOffset" X="0" Y="0" />
+                            </ImageBrush.Transform>
+                        </ImageBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Canvas>
+            <!--<Rectangle x:Name="Rectangle" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="238" Margin="0,82,0,0" Stroke="Black" VerticalAlignment="Top" Width="219" RenderTransformOrigin="0.5,0.5"/>-->
         </Grid>
         <Grid x:Name="Win" HorizontalAlignment="Stretch" Margin="-1282,1,1282,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Grid.Background>

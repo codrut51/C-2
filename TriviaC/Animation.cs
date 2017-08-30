@@ -95,4 +95,47 @@ namespace TriviaC
             }
         }
     }
+    class Animator
+    {
+        private int _xInterval;
+        private int _yInterval;
+        private int _maxWidth;
+        private int _maxLength;
+        private List<int> currentFrame;
+
+        public Animator(int maxWidth, int maxLength, int xInterval, int yInterval)
+        {
+            _xInterval = xInterval;
+            _yInterval = yInterval;
+            _maxWidth = maxWidth;
+            _maxLength = maxLength;
+        }
+
+        /// <summary>
+        /// Returns the coordinates of the next frame in the spritesheet
+        /// Index 0 = x
+        /// Index 1 = y
+        /// </summary>
+        /// <returns>The coordinates of the next frame</returns>
+        public List<int> NextFrame()
+        {
+            // First frame
+            if (currentFrame == null)
+            {
+                currentFrame = new List<int> { 0, 0 };
+                return currentFrame;
+            }
+
+            currentFrame[0] -= _xInterval;
+
+            // If maxWidth has been succeeded, move one frame down and start the new row
+            if (currentFrame[0] <= (_maxWidth * -1))
+            {
+                currentFrame[0] = 0;
+                currentFrame[1] -= _yInterval;
+            }
+
+            return currentFrame;
+        }
+    }
 }
