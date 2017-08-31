@@ -14,17 +14,20 @@ namespace TriviaC
         private Question End;
         private int i, j, x;
         private Dictionary<String, Animation> animations;
+        private Dictionary<String, Animator> animator;
         public Game()
         {
             db = new Database();
             i = j = x = -1;
             End.description = "End";
             animations = new Dictionary<string, Animation>();
-            animations["die"] = new Animation("die", 1, 14);
+            animator = new Dictionary<string, Animator>();
             animations["heart"] = new Animation("heart", 1, 5);
-            animations["jump"] = new Animation("jump", 1, 16);
-            animations["run"] = new Animation("run", 1, 9);
-            animations["dance"] = new Animation("dance", 1, 26);
+            animator["dance"] = new Animator(1040, 342, 96, 114);
+            animator["run"] = new Animator(2493, 975, 310, 353);
+            animator["jump"] = new Animator(2000, 975, 301, 351);
+            animator["die"] = new Animator(3840, 975, 339, 319);
+
         }
 
         public bool addPlayer(String name)
@@ -58,10 +61,19 @@ namespace TriviaC
             db.UpdatePlayer(p);
         }
 
-        public Dictionary<String, Animation> Animations{
+        public Dictionary<String, Animation> Animations
+        {
             get
             {
                 return animations;
+            }
+        }
+
+        public Dictionary<String, Animator> Animator
+        {
+            get
+            {
+                return animator;
             }
         }
 

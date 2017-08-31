@@ -97,8 +97,8 @@ namespace TriviaC
     }
     class Animator
     {
-        private int _xInterval;
-        private int _yInterval;
+        public int _xInterval;
+        public int _yInterval;
         private int _maxWidth;
         private int _maxLength;
         private List<int> currentFrame;
@@ -136,6 +136,11 @@ namespace TriviaC
             }
 
             return currentFrame;
+        }
+
+        public void ResetFrame()
+        {
+            currentFrame = null;
         }
     }
 }

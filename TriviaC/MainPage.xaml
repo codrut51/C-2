@@ -116,11 +116,13 @@
             	<Run Text="}"/>
             </TextBlock>
             <Button x:Name="Continue" Content="Continue" HorizontalAlignment="Right" Margin="0,0,90,71" VerticalAlignment="Bottom" Height="64" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Click="Continue_Click"/>
-            <Canvas HorizontalAlignment="Center" Height="238" Margin="0,82,0,0" VerticalAlignment="Top" Width="219">
-                <Rectangle Width="238" Height="219">
+            <Canvas x:Name ="Canvas" HorizontalAlignment="Center" Height="238" Margin="0,82,0,0" VerticalAlignment="Top" Width="219">
+                <Rectangle x:Name ="Rectangle" Width="238" Height="219">
                     <Rectangle.Fill>
                         <ImageBrush x:Name="anim" ImageSource="Assets/Images/spritesheet.png" 
-                    Stretch="Uniform">
+                    Stretch="None"
+                    AlignmentX="Left" 
+                    AlignmentY="Top">
                             <ImageBrush.Transform>
                                 <TranslateTransform x:Name="SpriteSheetOffset" X="0" Y="0" />
                             </ImageBrush.Transform>
@@ -132,7 +134,7 @@
         </Grid>
         <Grid x:Name="Win" HorizontalAlignment="Stretch" Margin="-1282,1,1282,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Grid.Background>
-                <ImageBrush Stretch="Fill" ImageSource="Assets/ultimate win.png"/>
+                <ImageBrush Stretch="Fill" ImageSource="Assets/back5.png"/>
             </Grid.Background>
             <TextBlock x:Name="MyUser" HorizontalAlignment="Left" Margin="100,171,0,0" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Top" FontFamily="Papyrus" FontSize="33.333" Foreground="White"/>
             <TextBlock x:Name="HiScore" HorizontalAlignment="Left" Margin="140,0,0,80" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Bottom" FontFamily="Papyrus" FontSize="26.667" Foreground="White"/>

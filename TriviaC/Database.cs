@@ -139,7 +139,7 @@ namespace TriviaC
                 conn.Open();
                 //this will copy the connection for using it in different commands
                 cmd.Connection = conn;
-                sql = "select * from `fillquestion` where difficulty = '1' limit 2";
+                sql = "select * from `fillquestion` where difficulty = '1' order by RAND() limit 2";
                 //this is like mysqli_query does the same thing
                 cmd.CommandText = sql;
                 cmd.ExecuteNonQuery();

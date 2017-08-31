@@ -39,6 +39,7 @@ namespace TriviaC
         private Uri old = null;
         private List<BitmapImage> preloadImages;
         private int runAnim = 0;
+        private Animator local;
         //private Image current; //the current image to be modified
         //private bool isChoice = true;
         //private Question currentQuestion;
@@ -87,7 +88,7 @@ namespace TriviaC
                 x.Start();
                 x.Tick += X_Tick;
                 DispatcherTimer y = new DispatcherTimer();
-                y.Interval = new TimeSpan(1100000); //1 = 100 nanoseconds => 1s = 10^9 nanoseconds
+                y.Interval = new TimeSpan(1400000); //1 = 100 nanoseconds => 1s = 10^9 nanoseconds
                 y.Start();
                 y.Tick += Y_Tick;
             }
@@ -101,102 +102,34 @@ namespace TriviaC
         {
             try
             {
-                Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-           () => {
                 // do some work connected with the UI
                 if (!current.isMulty && correct == 1)
                {
-                   Debug.WriteLine(current.animation);
                    if (current.animation != "none")
                    {
-                       if (runAnim < preloadImages.Count)
-                       {
-                           //SetImage(animation1, animation.runAnimation());
-                           anim.ImageSource = preloadImages[runAnim];
-                           runAnim++;
-
-                       }
-                       else
-                       {
-                           runAnim = 0;
-                           correct = 0;
-                           preloadImages = new List<BitmapImage>();
-                       }
+                       var v = local.NextFrame();
+                       SpriteSheetOffset.X = v[0];
+                       SpriteSheetOffset.Y = v[1];
                    }
                }
                try
                {
                    if (game.player.getHeartsTotal() == 0 && correct == -1)
-                   {
-                       if (runAnim < preloadImages.Count)
-                       {
-                           //SetImage(animation1, animation.runAnimation());
-                           anim.ImageSource = preloadImages[runAnim];
-                           runAnim++;
-
-                       }
-                       else
-                       {
-                           runAnim = 0;
-                           correct = 0;
-                           preloadImages = new List<BitmapImage>();
-                       }
-                   }
+                    {
+                        var v = local.NextFrame();
+                        SpriteSheetOffset.X = v[0];
+                        SpriteSheetOffset.Y = v[1];
+                    }
                }
                catch (Exception)
                {
 
                }
-                /*List<int> frameCoordinates = _animator.NextFrame();
-                this.SpriteSheetOffset.X = frameCoordinates[0];
-                this.SpriteSheetOffset.Y = frameCoordinates[1]; */
-
-           }).GetResults();
             }
             catch(Exception ex)
             {
 
             }
-           
-            /*if (!current.isMulty && correct == 1)
-            {
-                Debug.WriteLine(current.animation);
-                if (current.animation != "none")
-                {
-                    Debug.WriteLine(current.animation);
-                    var animation = game.Animations[current.animation];
-                    if (animation.CurrentPoint < animation.EndPoint)
-                    {
-                        SetImage(Rectangle, animation.runAnimation());
-                    }
-                    else
-                    {
-                        animation.CurrentPoint = 0;
-                        correct = 0;
-                    }
-                }                
-            }
-            try
-            {
-                if (game.player.getHeartsTotal() == 0 && correct == -1)
-                {
-                    var animation = game.Animations["die"];
-                    if (animation.CurrentPoint < animation.EndPoint)
-                    {
-                        SetImage(Rectangle, animation.runAnimation());
-                    }
-                    else
-                    {
-                        animation.CurrentPoint = 0;
-                        correct = 0;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-
-            }*/
-
         }
 
         /// <summary>
@@ -396,23 +329,24 @@ namespace TriviaC
                 bool ch = game.checkAnswer(choice);
                 if (!ch)
                 {
-                    if(game.player.getHeartsTotal() == 0)
+                    correct = -1;
+                    if (game.player.getHeartsTotal() == 0)
                     {
-                        var anim = game.Animations["die"];
-                        for (int i = anim.StartPoint; i <= anim.EndPoint; i++)
-                        {
                             try
                             {
-                                String imagepath = "ms-appx:///Assets/Images/" + anim.runAnimation();
-                                Uri uri = new Uri(imagepath, UriKind.RelativeOrAbsolute); new BitmapImage(uri);
-                                preloadImages.Add(new BitmapImage(uri));
+                                String imagepath = "ms-appx:///Assets/" + "die" + ".png";
+                                Uri uri = new Uri(imagepath, UriKind.RelativeOrAbsolute);
+                                anim.ImageSource = new BitmapImage(uri);
                             }
                             catch (Exception)
                             {
 
                             }
-                        }
-                        anim.CurrentPoint = 0;
+                        local = game.Animator["die"];
+                        Canvas.Height = local._yInterval;
+                        Canvas.Width = local._xInterval;
+                        Rectangle.Width = local._xInterval;
+                        Rectangle.Height = local._yInterval;
                         codeRes.Text = "You Lost!";
                         Hide(Gquestion);
                         Hide(FillQuestions);
@@ -420,7 +354,6 @@ namespace TriviaC
                     }
                     else
                     {
-                        correct = -1;
                         nextQuestion();
                     }
                 }
@@ -429,21 +362,21 @@ namespace TriviaC
                     correct = 1;
                     if(current.animation != "none")
                     {
-                        var anim = game.Animations[current.animation];
-                        for (int i = anim.StartPoint; i <= anim.EndPoint; i++)
+                        try
                         {
-                            try
-                            {
-                                String imagepath = "ms-appx:///Assets/Images/" + anim.runAnimation();
-                                Uri uri = new Uri(imagepath, UriKind.RelativeOrAbsolute); new BitmapImage(uri);
-                                preloadImages.Add(new BitmapImage(uri));
-                            }
-                            catch (Exception)
-                            {
-
-                            }
+                            String imagepath = "ms-appx:///Assets/" + current.animation + ".png";
+                            Uri uri = new Uri(imagepath, UriKind.RelativeOrAbsolute);
+                            anim.ImageSource = new BitmapImage(uri);
                         }
-                        anim.CurrentPoint = 0;
+                        catch (Exception)
+                        {
+
+                        }
+                        local = game.Animator[current.animation];
+                        Canvas.Height = local._yInterval;
+                        Canvas.Width = local._xInterval;
+                        Rectangle.Width = local._xInterval;
+                        Rectangle.Height = local._yInterval;
                         codeRes.Text = current.complitionQuestion;
                         Hide(Gquestion);
                         Hide(FillQuestions);
@@ -457,17 +390,15 @@ namespace TriviaC
                     Points.Text = "Points: " + game.player.getScore();
                     nextQuestion();
                 }
-                //if(current.isMulty)
-                //{
-                //    nextQuestion();
-                //}
             }
         }
 
         private void Continue_Click(object sender, RoutedEventArgs e)
         {
             Hide(animate);
+            game.Animator[current.animation].ResetFrame();
             nextQuestion();
+            correct = 0;
         }
     }
  }
