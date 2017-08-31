@@ -418,7 +418,11 @@ namespace TriviaC
                         Hide(FillQuestions);
                         Show(animate);
                     }
-                    correct = -1;
+                    else
+                    {
+                        correct = -1;
+                        nextQuestion();
+                    }
                 }
                 else if (ch && !current.isMulty)
                 {
@@ -445,12 +449,18 @@ namespace TriviaC
                         Hide(FillQuestions);
                         Show(animate);
                     }
+                    Points.Text = "Points: " + game.player.getScore();
                 }
-                Points.Text = "Points: " + game.player.getScore();
-                if(current.isMulty)
+                if(ch && current.isMulty)
                 {
+
+                    Points.Text = "Points: " + game.player.getScore();
                     nextQuestion();
                 }
+                //if(current.isMulty)
+                //{
+                //    nextQuestion();
+                //}
             }
         }
 

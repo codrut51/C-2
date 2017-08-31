@@ -49,14 +49,65 @@ namespace TriviaC
                 conn.Open();
                 //this will copy the connection for using it in different commands
                 cmd.Connection = conn;
-                sql = "select * from `multiquestion` limit 5";
+                sql = "select * from `multiquestion` where difficulty = 1 order by RAND() limit 2";
                 //this is like mysqli_query does the same thing
                 cmd.CommandText = sql;
                 cmd.ExecuteNonQuery();
                 //this is reading the data from the created sql 
                 MySqlDataReader ms = cmd.ExecuteReader();
                 //ms.Read() it acts like while($res = mysqli_fetch_assoc(cmd))
-                while(ms.Read())
+                while (ms.Read())
+                {
+                    Question q = new Question();
+                    q.isMulty = true;
+                    q.description = ms.GetString("question");
+                    q.ansa = ms.GetString("ansa");
+                    q.ansb = ms.GetString("ansb");
+                    q.ansc = ms.GetString("ansc");
+                    q.corrans = ms.GetString("corrans");
+                    q.difficulty = int.Parse(ms.GetString("difficulty"));
+                    multiq.Add(q);
+                }
+                conn.Close();
+                cmd = new MySqlCommand();
+                //this will open a connection to the connection string imputed into MySqlConnection
+                conn.Open();
+                //this will copy the connection for using it in different commands
+                cmd.Connection = conn;
+                sql = "select * from `multiquestion` where difficulty = 2 order by RAND() limit 2";
+                //this is like mysqli_query does the same thing
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+                //this is reading the data from the created sql 
+                ms = cmd.ExecuteReader();
+                //ms.Read() it acts like while($res = mysqli_fetch_assoc(cmd))
+                while (ms.Read())
+                {
+                    Question q = new Question();
+                    q.isMulty = true;
+                    q.description = ms.GetString("question");
+                    q.ansa = ms.GetString("ansa");
+                    q.ansb = ms.GetString("ansb");
+                    q.ansc = ms.GetString("ansc");
+                    q.corrans = ms.GetString("corrans");
+                    q.difficulty = int.Parse(ms.GetString("difficulty"));
+                    multiq.Add(q);
+                }
+                conn.Close();
+                conn.Close();
+                cmd = new MySqlCommand();
+                //this will open a connection to the connection string imputed into MySqlConnection
+                conn.Open();
+                //this will copy the connection for using it in different commands
+                cmd.Connection = conn;
+                sql = "select * from `multiquestion` where difficulty = 3 order by RAND() limit 1";
+                //this is like mysqli_query does the same thing
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+                //this is reading the data from the created sql 
+                ms = cmd.ExecuteReader();
+                //ms.Read() it acts like while($res = mysqli_fetch_assoc(cmd))
+                while (ms.Read())
                 {
                     Question q = new Question();
                     q.isMulty = true;
@@ -88,12 +139,58 @@ namespace TriviaC
                 conn.Open();
                 //this will copy the connection for using it in different commands
                 cmd.Connection = conn;
-                sql = "select * from `fillquestion` where difficulty = '1' limit 5";
+                sql = "select * from `fillquestion` where difficulty = '1' limit 2";
                 //this is like mysqli_query does the same thing
                 cmd.CommandText = sql;
                 cmd.ExecuteNonQuery();
                 //this is reading the data from the created sql 
                 MySqlDataReader ms = cmd.ExecuteReader();
+                //ms.Read() it acts like while($res = mysqli_fetch_assoc(cmd))
+                while (ms.Read())
+                {
+                    Question q = new Question();
+                    q.isMulty = false;
+                    q.description = ms.GetString("question");
+                    q.complitionQuestion = ms.GetString("code");
+                    q.complitionAnswer = ms.GetString("corrans");
+                    q.animation = ms.GetString("animation");
+                    fillinq.Add(q);
+                }
+                conn.Close();
+                cmd = new MySqlCommand();
+                //this will open a connection to the connection string imputed into MySqlConnection
+                conn.Open();
+                //this will copy the connection for using it in different commands
+                cmd.Connection = conn;
+                sql = "select * from `fillquestion` where difficulty = 2 order by RAND() limit 2";
+                //this is like mysqli_query does the same thing
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+                //this is reading the data from the created sql 
+                ms = cmd.ExecuteReader();
+                //ms.Read() it acts like while($res = mysqli_fetch_assoc(cmd))
+                while (ms.Read())
+                {
+                    Question q = new Question();
+                    q.isMulty = false;
+                    q.description = ms.GetString("question");
+                    q.complitionQuestion = ms.GetString("code");
+                    q.complitionAnswer = ms.GetString("corrans");
+                    q.animation = ms.GetString("animation");
+                    fillinq.Add(q);
+                }
+                conn.Close();
+                cmd = new MySqlCommand();
+                //this will open a connection to the connection string imputed into MySqlConnection
+                conn.Open();
+                //this will copy the connection for using it in different commands
+                cmd.Connection = conn;
+                sql = "select * from `fillquestion` where difficulty = 3 order by RAND() limit 1";
+                //this is like mysqli_query does the same thing
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+                //this is reading the data from the created sql 
+                ms = cmd.ExecuteReader();
                 //ms.Read() it acts like while($res = mysqli_fetch_assoc(cmd))
                 while (ms.Read())
                 {
