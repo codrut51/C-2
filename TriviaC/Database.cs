@@ -340,6 +340,6 @@ namespace TriviaC
                 await ms.ShowAsync();
             }
             catch (Exception) { }
-        }
+        } 
     }
 }
