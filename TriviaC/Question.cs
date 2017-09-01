@@ -134,6 +134,10 @@ namespace TriviaC
         }
     }
     */
+    /// <summary>
+    /// Here it is used a struct for efficience purposses 
+    /// important for ARM cpus 
+    /// </summary>
     public struct Question
     {
         public string description;
@@ -141,7 +145,7 @@ namespace TriviaC
         public string ansb;
         public string ansc;
         public string corrans;
-        public string complitionQuestion;
+        public string complitionQuestion; // code
         public string complitionAnswer;
         public string animation;
         public int difficulty;

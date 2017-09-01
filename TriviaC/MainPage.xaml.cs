@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage.Streams;
@@ -40,9 +41,6 @@ namespace TriviaC
         private List<BitmapImage> preloadImages;
         private int runAnim = 0;
         private Animator local;
-        //private Image current; //the current image to be modified
-        //private bool isChoice = true;
-        //private Question currentQuestion;
         /// <summary>
         /// Constructor where everything is initialiezed 
         /// </summary>
@@ -79,6 +77,22 @@ namespace TriviaC
             }
         }
 
+        /// <summary>
+        /// this function is used to display a user message
+        /// </summary>
+        /// <param name="message">the message to be displayed</param>
+        private async void Display(string message)
+        {
+            try
+            {
+                MessageDialog ms = new MessageDialog(message);
+                await ms.ShowAsync();
+            }
+            catch (Exception) { }
+        }
+        /// <summary>
+        /// Using DispatcherTimer for the animations to be smoother
+        /// </summary>
         private async void looseHeart()
         {
             try
@@ -97,7 +111,9 @@ namespace TriviaC
 
             }
         }
-
+        /// <summary>
+        /// function dealing with the animation for the FillIn questions
+        /// </summary>
         private void Y_Tick(object sender, object e)
         {
             try
@@ -172,6 +188,11 @@ namespace TriviaC
                 await warning.ShowAsync();
             }
         }
+        /// <summary>
+        /// fuction dealing with the hearth animation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void X_Tick(object sender, object e)
         {
             if(correct == -1)
@@ -247,6 +268,9 @@ namespace TriviaC
                 Points.Text = "Points: " + game.player.getScore();
             }
         }
+        /// <summary>
+        /// filling in the data for the next question 
+        /// </summary>
         private void nextQuestion()
         {
            current = game.nextQuestion();
@@ -303,7 +327,9 @@ namespace TriviaC
             Show(Gquestion);
             nextQuestion();
         }
-
+        /// <summary>
+        ///  this function deals with all the answers passing to the game and back
+        /// </summary>
         private void Answer_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -366,7 +392,13 @@ namespace TriviaC
                         {
                             String imagepath = "ms-appx:///Assets/" + current.animation + ".png";
                             Uri uri = new Uri(imagepath, UriKind.RelativeOrAbsolute);
-                            anim.ImageSource = new BitmapImage(uri);
+                            BitmapImage img = new BitmapImage(uri);
+                            if (current.animation.Equals("dance"))
+                            {
+                                img.DecodePixelWidth = 4872;    
+                                img.DecodePixelHeight = 2016;
+                            }
+                            anim.ImageSource = img;
                         }
                         catch (Exception)
                         {
@@ -393,12 +425,26 @@ namespace TriviaC
             }
         }
 
-        private void Continue_Click(object sender, RoutedEventArgs e)
+        private void Click_Continue(object sender, RoutedEventArgs e)
         {
             Hide(animate);
             game.Animator[current.animation].ResetFrame();
             nextQuestion();
             correct = 0;
+            if(game.player.getHeartsTotal() == 0)
+            {
+
+                Display("In order to retry you need to reopen this applicaiton");
+                Task.Delay(TimeSpan.FromSeconds(5000));
+                CoreApplication.Exit();
+            }
+            if(current.description.Equals("End"))
+            {
+                Hide(Gquestion);
+                Hide(FillQuestions);
+                Hide(animate);
+                Show(Win);
+            }
         }
     }
  }

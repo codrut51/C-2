@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animation.cs" />
+    <Compile Include="Animator.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -126,6 +127,7 @@
     <Content Include="Assets\back5.jpg" />
     <Content Include="Assets\char.png" />
     <Content Include="Assets\dance.png" />
+    <Content Include="Assets\die.png" />
     <Content Include="Assets\Images\dance1.png" />
     <Content Include="Assets\Images\dance10.png" />
     <Content Include="Assets\Images\dance11.png" />

@@ -34,7 +34,7 @@ namespace TriviaC
             }
             catch(Exception ex)
             {
-                Display("Something went wrong with the connection: " + ex.ToString());
+                Display("You don't have a internet connection or connection to the database please try again later");
             }
         }
         /// <summary>
@@ -123,7 +123,7 @@ namespace TriviaC
             }
             catch(Exception ex)
             {
-                Debug.Write(ex.ToString());
+                Display("You don't have a internet connection or connection to the database please try again later");
             }
         }
 
@@ -206,7 +206,7 @@ namespace TriviaC
             }
             catch (Exception ex)
             {
-                Debug.Write(ex.ToString());
+                Display("You don't have a internet connection or connection to the database please try again later");
             }
         }
 
@@ -238,12 +238,12 @@ namespace TriviaC
             }
             catch (Exception ex)
             {
-                Debug.Write(ex.ToString());
+                Display("You don't have a internet connection or connection to the database please try again later");
             }
         }
 
         /// <summary>
-        /// Creating an user 
+        /// Creating a new user in the database
         /// </summary>
         /// <returns></returns>
         public bool CreatePlayer(String name)
@@ -285,11 +285,14 @@ namespace TriviaC
             }
             catch (Exception ex)
             {
-                Debug.Write(ex.ToString());
+                Display("You don't have a internet connection or connection to the database please try again later");
                 return false;
             }
         }
-
+        /// <summary>
+        /// Updating the player with the end score
+        /// </summary>
+        /// <param name="p">the passed variable from the game: player</param>
         public void UpdatePlayer(Player p)
         {
             try
@@ -307,7 +310,7 @@ namespace TriviaC
             }
             catch (Exception ex)
             {
-                Debug.Write(ex.ToString());
+                Display("You don't have a internet connection or connection to the database please try again later");
             }
         }
         //gets a list of the multiple coice question

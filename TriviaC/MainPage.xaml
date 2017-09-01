@@ -38,7 +38,7 @@
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back5.jpg"/>
             </Grid.Background>
-            <RelativePanel HorizontalAlignment="Stretch" Height="AUTO" VerticalAlignment="Stretch" Width="aUTO">
+            <RelativePanel HorizontalAlignment="Stretch" Height="auto" VerticalAlignment="Stretch" Width="auto">
                 <TextBlock x:Name="qdesc" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="100,160,100,0" TextWrapping="Wrap" Text="In C#.NET  how is it possible to prevent inheritance?" SelectionHighlightColor="#FF404040" Foreground="#FFF3F3F3" FontFamily="Papyrus" FontSize="33.333" VerticalAlignment="Top"/>
                 <TextBlock x:Name="textBlock2_Copy" Margin="180,60,0,0" Height="62" TextWrapping="Wrap" Text="A." VerticalAlignment="Top" Width="44" SelectionHighlightColor="#FF404040" Foreground="#FFF3F3F3" FontFamily="Papyrus" FontSize="36" RelativePanel.Below="qdesc"/>
                 <TextBlock x:Name="textBlock2_Copy1" Margin="180,60,0,0" Height="62" TextWrapping="Wrap" Text="B." VerticalAlignment="Top" Width="44" SelectionHighlightColor="#FF404040" Foreground="#FFF3F3F3" FontFamily="Papyrus" FontSize="36" RelativePanel.Below="answerA"/>
@@ -87,7 +87,7 @@
             <TextBlock x:Name="FillDesc" HorizontalAlignment="Left" Height="54" Margin="121,59,0,0" TextWrapping="Wrap" Text="Fill in the blanks to make the jump 10 times: " VerticalAlignment="Top" Width="780" Foreground="White" SelectionHighlightColor="{x:Null}" FontFamily="Papyrus" FontSize="36" Grid.Row="1"/>
         </Grid>
 
-        <Grid x:Name="animate" HorizontalAlignment="Stretch" Height="Auto" Margin="-1750,0,1750,0" Grid.RowSpan="2" VerticalAlignment="Stretch" Width="Auto" Visibility="Visible">
+        <Grid x:Name="animate" HorizontalAlignment="Stretch" Height="Auto" Margin="-1750,0,1750,0" Grid.RowSpan="2" VerticalAlignment="Stretch" Width="Auto" Visibility="Collapsed">
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/back4.png"/>
             </Grid.Background>
@@ -115,7 +115,7 @@
             	<LineBreak/>
             	<Run Text="}"/>
             </TextBlock>
-            <Button x:Name="Continue" Content="Continue" HorizontalAlignment="Right" Margin="0,0,90,71" VerticalAlignment="Bottom" Height="64" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Click="Continue_Click"/>
+            <Button x:Name="Continue" Content="Continue" HorizontalAlignment="Right" Margin="0,0,90,71" VerticalAlignment="Bottom" Height="64" Width="192" BorderThickness="0" FontSize="36" FontFamily="Papyrus" Foreground="White" Background="{x:Null}" Click="Click_Continue"/>
             <Canvas x:Name ="Canvas" HorizontalAlignment="Center" Height="238" Margin="0,82,0,0" VerticalAlignment="Top" Width="219">
                 <Rectangle x:Name ="Rectangle" Width="238" Height="219">
                     <Rectangle.Fill>
@@ -134,7 +134,7 @@
         </Grid>
         <Grid x:Name="Win" HorizontalAlignment="Stretch" Margin="-1282,1,1282,-1" Grid.RowSpan="2" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Grid.Background>
-                <ImageBrush Stretch="Fill" ImageSource="Assets/back5.png"/>
+                <ImageBrush Stretch="Fill" ImageSource="Assets/back5.jpg"/>
             </Grid.Background>
             <TextBlock x:Name="MyUser" HorizontalAlignment="Left" Margin="100,171,0,0" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Top" FontFamily="Papyrus" FontSize="33.333" Foreground="White"/>
             <TextBlock x:Name="HiScore" HorizontalAlignment="Left" Margin="140,0,0,80" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Bottom" FontFamily="Papyrus" FontSize="26.667" Foreground="White"/>
